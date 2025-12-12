@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - Nuevas Características</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .demo-section h2 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .demo-section h3 {
+      color: #666;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .phone-container {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .phone-container h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .code-block code {
+      color: #f8f8f2;
+    }
+
+    .button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin: 5px;
+    }
+
+    .button:hover {
+      background: #357abd;
+    }
+
+    .button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .log {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🚀 PhoneLib - Nuevas Características</h1>
+  <p class="subtitle">Demostración de todas las nuevas funcionalidades implementadas</p>
+
+  <div class="demo-section">
+    <h2>1. Eventos y Callbacks</h2>
+    <p>Escucha eventos importantes del componente:</p>
+
+    <div class="phone-container">
+      <h4>Ejemplo con eventos</h4>
+      <div id="phone-container-events"></div>
+      <div class="log" id="event-log"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  onCountryChange: (country, dialCode, name) => {
+    console.log('País cambiado:', country);
+  },
+  onPhoneChange: (phone, isValid, country) => {
+    console.log('Número cambiado:', phone);
+  },
+  onValidationChange: (isValid) => {
+    console.log('Validación:', isValid);
+  }
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>2. Control Programático</h2>
+    <p>Controla el componente desde JavaScript:</p>
+
+    <div class="phone-container">
+      <h4>Ejemplo con métodos de control</h4>
+      <div id="phone-container-control"></div>
+      <div class="button-group">
+        <button class="button" onclick="setCountry('ES')">Establecer España</button>
+        <button class="button" onclick="setCountry('US')">Establecer USA</button>
+        <button class="button" onclick="setPhone('+34600123456')">Establecer Número</button>
+        <button class="button" onclick="resetPhone()">Resetear</button>
+        <button class="button" onclick="toggleDisable()" id="toggle-btn">Deshabilitar</button>
+      </div>
+      <div class="code-block">
+        <code>
+phoneLib.setCountry('ES');
+phoneLib.setPhoneNumber('+34600123456');
+phoneLib.setValue('US', '5551234567');
+phoneLib.enable();
+phoneLib.disable();
+phoneLib.reset();
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>3. Detección Automática de País</h2>
+    <p>Detecta automáticamente el país al ingresar un número con código internacional:</p>
+
+    <div class="phone-container">
+      <h4>Auto-detección habilitada</h4>
+      <div id="phone-container-autodetect"></div>
+      <p><em>Intenta escribir: +34 600 123 456 (detectará España automáticamente)</em></p>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  autoDetectCountry: true
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>4. Filtrado de Países</h2>
+    <p>Controla qué países se muestran:</p>
+
+    <div class="phone-container">
+      <h4>Solo países específicos</h4>
+      <div id="phone-container-filtered"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  onlyCountries: ['CO', 'US', 'ES', 'MX'],
+  disabledCountries: ['CU']  // Cuba deshabilitado
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>5. Modo Readonly/Disabled</h2>
+    <p>Estados de solo lectura y deshabilitado:</p>
+
+    <div class="phone-container">
+      <h4>Componente deshabilitado</h4>
+      <div id="phone-container-disabled"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  disabled: true  // o readonly: true
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>6. Método getInfo()</h2>
+    <p>Obtén toda la información del número en un solo objeto:</p>
+
+    <div class="phone-container">
+      <h4>Información completa</h4>
+      <div id="phone-container-info"></div>
+      <button class="button" onclick="showInfo()">Mostrar Info Completa</button>
+      <div class="log" id="info-log"></div>
+      <div class="code-block">
+        <code>
+const info = phoneLib.getInfo();
+// Retorna:
+// {
+//   country: 'CO',
+//   dialCode: '+57',
+//   raw: '3001234567',
+//   e164: '+573001234567',
+//   international: '+57 300 123 4567',
+//   national: '300 123 4567',
+//   rfc3966: 'tel:+57-300-123-4567',
+//   isValid: true,
+//   type: 'MOBILE',
+//   countryName: 'Colombia'
+// }
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    let phoneLibControl, phoneLibInfo;
+
+    function logEvent(message) {
+      const log = document.getElementById('event-log');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function showInfo() {
+      const info = phoneLibInfo.getInfo();
+      const log = document.getElementById('info-log');
+      log.innerHTML = '<pre>' + JSON.stringify(info, null, 2) + '</pre>';
+    }
+
+    function setCountry(iso2) {
+      phoneLibControl.setCountry(iso2);
+      logEvent(`País cambiado programáticamente a: ${iso2}`);
+    }
+
+    function setPhone(number) {
+      phoneLibControl.setPhoneNumber(number);
+      logEvent(`Número establecido: ${number}`);
+    }
+
+    function resetPhone() {
+      phoneLibControl.reset();
+      logEvent('Componente reseteado');
+    }
+
+    function toggleDisable() {
+      const btn = document.getElementById('toggle-btn');
+      if (phoneLibControl.isDisabled) {
+        phoneLibControl.enable();
+        btn.textContent = 'Deshabilitar';
+        logEvent('Componente habilitado');
+      } else {
+        phoneLibControl.disable();
+        btn.textContent = 'Habilitar';
+        logEvent('Componente deshabilitado');
+      }
+    }
+
+    async function init() {
+      try {
+        const PhoneLibModule = await import('./phone-lib.js');
+        const PhoneLib = PhoneLibModule.default;
+
+        // Ejemplo 1: Eventos
+        new PhoneLib('#phone-container-events', {
+          initialCountry: 'CO',
+          onCountryChange: (country, dialCode, name) => {
+            logEvent(`País cambiado: ${name} (${country}) - ${dialCode}`);
+          },
+          onPhoneChange: (phone, isValid, country) => {
+            logEvent(`Número: ${phone} - Válido: ${isValid} - País: ${country}`);
+          },
+          onValidationChange: (isValid) => {
+            logEvent(`Validación cambiada: ${isValid ? 'Válido' : 'Inválido'}`);
+          },
+          onFocus: () => logEvent('Input enfocado'),
+          onBlur: () => logEvent('Input perdió foco')
+        });
+
+        // Ejemplo 2: Control programático
+        phoneLibControl = new PhoneLib('#phone-container-control', {
+          initialCountry: 'CO'
+        });
+
+        // Ejemplo 3: Auto-detección
+        new PhoneLib('#phone-container-autodetect', {
+          initialCountry: 'US',
+          autoDetectCountry: true
+        });
+
+        // Ejemplo 4: Países filtrados
+        new PhoneLib('#phone-container-filtered', {
+          initialCountry: 'CO',
+          onlyCountries: ['CO', 'US', 'ES', 'MX'],
+          disabledCountries: ['CU']
+        });
+
+        // Ejemplo 5: Deshabilitado
+        new PhoneLib('#phone-container-disabled', {
+          initialCountry: 'CO',
+          disabled: true
+        });
+
+        // Ejemplo 6: Info completa
+        phoneLibInfo = new PhoneLib('#phone-container-info', {
+          initialCountry: 'CO'
+        });
+
+      } catch (error) {
+        console.error('Error:', error);
+        document.body.innerHTML =
+          '<div style="color: #e74c3c; padding: 20px; background: #ffeaea; border-radius: 8px; border: 2px solid #e74c3c; max-width: 600px; margin: 40px auto;">' +
+          '<h3 style="margin-top: 0;">⚠️ Error al cargar la librería</h3>' +
+          '<p>Por favor ejecuta: <code>npm run serve</code></p>' +
+          '</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

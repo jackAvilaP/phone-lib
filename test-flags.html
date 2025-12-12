@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Banderas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .flag-test {
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      display: inline-block;
+    }
+
+    .flag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .phone-lib-flag-img {
+      width: 40px;
+      height: 30px;
+      object-fit: cover;
+      border-radius: 2px;
+      display: inline-block;
+      vertical-align: middle;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Test de Banderas</h1>
+  <div id="flags"></div>
+
+  <script>
+    function getCountryFlag(iso2) {
+      if (!iso2 || iso2.length !== 2) {
+        return '<img src="https://flagcdn.com/w20/un.png" alt="UN" class="phone-lib-flag-img" loading="lazy">';
+      }
+
+      const upperIso2 = iso2.toUpperCase();
+      const lowerIso2 = upperIso2.toLowerCase();
+
+      // Retornar HTML con imagen SVG de bandera desde CDN
+      return `<img src="https://flagcdn.com/w20/${lowerIso2}.png" 
+                   srcset="https://flagcdn.com/w40/${lowerIso2}.png 2x"
+                   alt="${upperIso2}" 
+                   class="phone-lib-flag-img"
+                   loading="lazy">`;
+    }
+
+    const testCountries = ['US', 'CO', 'ES', 'MX', 'AR', 'BR', 'FR', 'DE', 'GB', 'JP'];
+    const container = document.getElementById('flags');
+
+    testCountries.forEach(iso2 => {
+      const flagHtml = getCountryFlag(iso2);
+      const div = document.createElement('div');
+      div.className = 'flag-test';
+      div.innerHTML = `
+        <span class="flag">${flagHtml}</span>
+        <span>${iso2}</span>
+      `;
+      container.appendChild(div);
+    });
+
+    // Test directo en consola
+    console.log('=== Test de Banderas (Imágenes desde CDN) ===');
+    console.log('US:', getCountryFlag('US'));
+    console.log('CO:', getCountryFlag('CO'));
+    console.log('ES:', getCountryFlag('ES'));
+
+    // Mostrar información en la página
+    const infoDiv = document.createElement('div');
+    infoDiv.style.cssText = 'margin: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px; border: 2px solid #4caf50;';
+    infoDiv.innerHTML = `
+      <h3>✅ Banderas usando imágenes desde CDN</h3>
+      <p><strong>Método:</strong> Imágenes PNG desde flagcdn.com</p>
+      <p><strong>Ventajas:</strong> Funciona en todos los navegadores y sistemas operativos</p>
+      <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+      <p><em>Las banderas se cargan desde un CDN externo, por lo que necesitas conexión a internet.</em></p>
+    `;
+    document.body.insertBefore(infoDiv, container);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+{
+  "name": "@jacksonavila/phone-lib",
+  "version": "2.0.1",
+  "description": "Librería JavaScript para input de teléfono con selector de país y banderas - Compatible con Vanilla JS y React",
+  "main": "phone-lib.js",
+  "module": "phone-lib.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./phone-lib.js",
+      "require": "./phone-lib.js"
+    },
+    "./react": {
+      "import": "./phone-lib-react.jsx",
+      "require": "./phone-lib-react.js"
+    },
+    "./css": "./phone-lib.css"
+  },
+  "scripts": {
+    "serve": "npx http-server . -p 3004 -o",
+    "prepublishOnly": "echo 'Verificando archivos antes de publicar...' && node --check phone-lib.js"
+  },
+  "keywords": [
+    "phone",
+    "telephone",
+    "input",
+    "country",
+    "selector",
+    "flags",
+    "validation",
+    "libphonenumber",
+    "react",
+    "react-component",
+    "vanilla-js",
+    "phone-input",
+    "country-selector",
+    "international-phone"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "libphonenumber-js": "^1.11.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "files": [
+    "phone-lib.js",
+    "phone-lib.css",
+    "phone-lib-react.jsx",
+    "phone-lib-react.js",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

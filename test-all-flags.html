@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Todas las Banderas - PhoneLib</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .stats {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .flags-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .flag-item {
+      background: white;
+      padding: 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .flag-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .flag-item.error {
+      border: 2px solid #e74c3c;
+      background: #ffeaea;
+    }
+
+    .phone-lib-flag-img {
+      width: 32px;
+      height: 24px;
+      object-fit: cover;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    .flag-info {
+      flex: 1;
+    }
+
+    .flag-code {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .flag-name {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .error-msg {
+      color: #e74c3c;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🌍 Test de Todas las Banderas</h1>
+
+  <div class="stats" id="stats">
+    <div class="loading">Cargando países...</div>
+  </div>
+
+  <div class="flags-grid" id="flags-grid"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    import { getCountries, getCountryCallingCode } from 'libphonenumber-js';
+
+    function getCountryFlag(iso2) {
+      if (!iso2 || iso2.length !== 2) {
+        return '<img src="https://flagcdn.com/w20/un.png" alt="UN" class="phone-lib-flag-img" loading="lazy">';
+      }
+
+      const upperIso2 = iso2.toUpperCase();
+      const lowerIso2 = upperIso2.toLowerCase();
+
+      return `<img src="https://flagcdn.com/w20/${lowerIso2}.png" 
+                   srcset="https://flagcdn.com/w40/${lowerIso2}.png 2x"
+                   alt="${upperIso2}" 
+                   class="phone-lib-flag-img"
+                   loading="lazy"
+                   onerror="this.onerror=null; this.src='https://flagcdn.com/w20/xx.png'; this.alt='Error'; this.parentElement.parentElement.classList.add('error');">`;
+    }
+
+    function getCountryName(iso2) {
+      const countryNames = {
+        'US': 'Estados Unidos', 'CO': 'Colombia', 'ES': 'España', 'MX': 'México',
+        'AR': 'Argentina', 'CL': 'Chile', 'PE': 'Perú', 'VE': 'Venezuela',
+        'EC': 'Ecuador', 'BO': 'Bolivia', 'PY': 'Paraguay', 'UY': 'Uruguay',
+        'CR': 'Costa Rica', 'PA': 'Panamá', 'GT': 'Guatemala', 'HN': 'Honduras',
+        'NI': 'Nicaragua', 'SV': 'El Salvador', 'DO': 'República Dominicana',
+        'CU': 'Cuba', 'PR': 'Puerto Rico', 'BR': 'Brasil', 'CA': 'Canadá',
+        'GB': 'Reino Unido', 'FR': 'Francia', 'DE': 'Alemania', 'IT': 'Italia',
+        'PT': 'Portugal', 'NL': 'Países Bajos', 'BE': 'Bélgica', 'CH': 'Suiza',
+        'AT': 'Austria', 'SE': 'Suecia', 'NO': 'Noruega', 'DK': 'Dinamarca',
+        'FI': 'Finlandia', 'PL': 'Polonia', 'CZ': 'República Checa', 'GR': 'Grecia',
+        'IE': 'Irlanda', 'NZ': 'Nueva Zelanda', 'AU': 'Australia', 'JP': 'Japón',
+        'CN': 'China', 'IN': 'India', 'KR': 'Corea del Sur', 'SG': 'Singapur',
+        'MY': 'Malasia', 'TH': 'Tailandia', 'PH': 'Filipinas', 'ID': 'Indonesia',
+        'VN': 'Vietnam', 'AE': 'Emiratos Árabes Unidos', 'SA': 'Arabia Saudí',
+        'IL': 'Israel', 'TR': 'Turquía', 'RU': 'Rusia', 'ZA': 'Sudáfrica',
+        'EG': 'Egipto', 'NG': 'Nigeria', 'KE': 'Kenia', 'GH': 'Ghana'
+      };
+      return countryNames[iso2] || iso2;
+    }
+
+    async function testAllFlags() {
+      try {
+        const countries = getCountries();
+        const statsDiv = document.getElementById('stats');
+        const gridDiv = document.getElementById('flags-grid');
+
+        let loaded = 0;
+        let errors = 0;
+        const errorCountries = [];
+
+        statsDiv.innerHTML = `
+          <h3>Estadísticas</h3>
+          <p><strong>Total de países:</strong> ${countries.length}</p>
+          <p><strong>Banderas cargadas:</strong> <span id="loaded">0</span></p>
+          <p><strong>Errores:</strong> <span id="errors">0</span></p>
+          <div id="error-list"></div>
+        `;
+
+        countries.forEach((iso2, index) => {
+          const dialCode = getCountryCallingCode(iso2);
+          const flagHtml = getCountryFlag(iso2);
+          const name = getCountryName(iso2);
+
+          const flagItem = document.createElement('div');
+          flagItem.className = 'flag-item';
+          flagItem.innerHTML = `
+            <span class="phone-lib-flag">${flagHtml}</span>
+            <div class="flag-info">
+              <div class="flag-code">${iso2} (+${dialCode})</div>
+              <div class="flag-name">${name}</div>
+            </div>
+          `;
+
+          // Verificar si la imagen se carga correctamente
+          const img = flagItem.querySelector('img');
+          if (img) {
+            img.addEventListener('load', () => {
+              loaded++;
+              document.getElementById('loaded').textContent = loaded;
+            });
+            img.addEventListener('error', () => {
+              errors++;
+              errorCountries.push(iso2);
+              flagItem.classList.add('error');
+              const errorDiv = document.createElement('div');
+              errorDiv.className = 'error-msg';
+              errorDiv.textContent = 'Error al cargar';
+              flagItem.querySelector('.flag-info').appendChild(errorDiv);
+              document.getElementById('errors').textContent = errors;
+
+              if (errorCountries.length > 0) {
+                const errorList = document.getElementById('error-list');
+                errorList.innerHTML = `<strong>Países con error:</strong> ${errorCountries.join(', ')}`;
+              }
+            });
+          }
+
+          gridDiv.appendChild(flagItem);
+        });
+
+        // Mostrar mensaje después de un tiempo
+        setTimeout(() => {
+          if (loaded === countries.length) {
+            statsDiv.innerHTML += '<p style="color: #27ae60; margin-top: 10px;">✅ Todas las banderas se cargaron correctamente!</p>';
+          } else if (errors > 0) {
+            statsDiv.innerHTML += `<p style="color: #e74c3c; margin-top: 10px;">⚠️ ${errors} bandera(s) no se pudieron cargar</p>`;
+          }
+        }, 3000);
+
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('stats').innerHTML = `<p style="color: #e74c3c;">Error: ${error.message}</p>`;
+      }
+    }
+
+    testAllFlags();
+  </script>
+</body>
+
+</html>

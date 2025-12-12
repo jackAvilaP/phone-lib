@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - Ejemplo Completo Vanilla JS</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    #phone-container {
+      margin: 20px 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      background: #357abd;
+    }
+
+    .info-box {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .info-box h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .info-box pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+
+    .log {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .log-entry {
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📱 PhoneLib - Ejemplo Completo Vanilla JavaScript</h1>
+  <p class="subtitle">Guía completa de uso con ejemplos prácticos</p>
+
+  <div class="container">
+    <h2>1. Componente Básico</h2>
+    <div id="phone-container"></div>
+  </div>
+
+  <div class="container">
+    <h2>2. Control Programático</h2>
+    <div class="button-group">
+      <button class="button" onclick="setCountry('ES')">🇪🇸 España</button>
+      <button class="button" onclick="setCountry('US')">🇺🇸 USA</button>
+      <button class="button" onclick="setCountry('CO')">🇨🇴 Colombia</button>
+      <button class="button" onclick="setPhone('+34600123456')">Establecer Número</button>
+      <button class="button" onclick="resetPhone()">🔄 Resetear</button>
+      <button class="button" onclick="toggleDisable()" id="toggle-btn">🔒 Deshabilitar</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>3. Información del Número</h2>
+    <button class="button" onclick="showInfo()">📊 Mostrar Información Completa</button>
+    <div id="info-display"></div>
+  </div>
+
+  <div class="container">
+    <h2>4. Eventos y Callbacks</h2>
+    <div class="log" id="event-log"></div>
+  </div>
+
+  <div class="container">
+    <h2>5. Todos los Formatos</h2>
+    <button class="button" onclick="showAllFormats()">📋 Mostrar Todos los Formatos</button>
+    <div id="formats-display"></div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0",
+        "@jacksonavila/phone-lib": "./phone-lib.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import PhoneLib from './phone-lib.js';
+
+    // Función para log de eventos
+    function logEvent(message) {
+      const log = document.getElementById('event-log');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      const time = new Date().toLocaleTimeString();
+      entry.textContent = `[${time}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // Inicializar PhoneLib
+    window.phoneLib = new PhoneLib('#phone-container', {
+      initialCountry: 'CO',
+      layout: 'integrated',
+      showDialCode: true,
+      showHint: true,
+
+      // Callbacks
+      onCountryChange: (country, dialCode, countryName) => {
+        logEvent(`🌍 País cambiado: ${countryName} (${country}) - ${dialCode}`);
+      },
+
+      onPhoneChange: (phoneNumber, isValid, country) => {
+        logEvent(`📞 Número: ${phoneNumber} - Válido: ${isValid ? 'Sí ✓' : 'No ✗'} - País: ${country}`);
+      },
+
+      onValidationChange: (isValid) => {
+        logEvent(`✅ Validación: ${isValid ? 'Válido' : 'Inválido'}`);
+      },
+
+      onFocus: () => logEvent('👆 Input enfocado'),
+      onBlur: () => logEvent('👋 Input perdió foco')
+    });
+
+    // Funciones de control programático
+    window.setCountry = (iso2) => {
+      window.phoneLib.setCountry(iso2);
+      logEvent(`🔧 País establecido programáticamente: ${iso2}`);
+    };
+
+    window.setPhone = (number) => {
+      window.phoneLib.setPhoneNumber(number);
+      logEvent(`🔧 Número establecido programáticamente: ${number}`);
+    };
+
+    window.resetPhone = () => {
+      window.phoneLib.reset();
+      logEvent('🔄 Componente reseteado');
+      document.getElementById('info-display').innerHTML = '';
+      document.getElementById('formats-display').innerHTML = '';
+    };
+
+    window.toggleDisable = () => {
+      const btn = document.getElementById('toggle-btn');
+      if (window.phoneLib.isDisabled) {
+        window.phoneLib.enable();
+        btn.textContent = '🔒 Deshabilitar';
+        logEvent('🔓 Componente habilitado');
+      } else {
+        window.phoneLib.disable();
+        btn.textContent = '🔓 Habilitar';
+        logEvent('🔒 Componente deshabilitado');
+      }
+    };
+
+    window.showInfo = () => {
+      const info = window.phoneLib.getInfo();
+      document.getElementById('info-display').innerHTML = `
+        <div class="info-box">
+          <h3>Información Completa del Número:</h3>
+          <pre>${JSON.stringify(info, null, 2)}</pre>
+        </div>
+      `;
+      logEvent('📊 Información mostrada');
+    };
+
+    window.showAllFormats = () => {
+      const lib = window.phoneLib;
+
+      const formats = {
+        'País (ISO2)': lib.getCountry(),
+        'Código de marcación': lib.getDialCode(),
+        'Número sin formato (raw)': lib.getRaw() || '(vacío)',
+        'Formato E.164': lib.getE164() || '(vacío)',
+        'Formato internacional': lib.formatInternational() || '(vacío)',
+        'Formato nacional': lib.formatNational() || '(vacío)',
+        'Formato RFC3966': lib.formatRFC3966() || '(vacío)',
+        'Tipo de número': lib.getNumberType() || '(vacío)',
+        'Es válido': lib.isValid() ? 'Sí' : 'No',
+        'Metadata del país': lib.getCountryMetadata()
+      };
+
+      document.getElementById('formats-display').innerHTML = `
+        <div class="info-box">
+          <h3>Todos los Formatos Disponibles:</h3>
+          <pre>${JSON.stringify(formats, null, 2)}</pre>
+        </div>
+      `;
+      logEvent('📋 Formatos mostrados');
+    };
+
+    // Mostrar información inicial después de 1 segundo
+    setTimeout(() => {
+      logEvent('✅ PhoneLib inicializado correctamente');
+    }, 1000);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - Todos los Layouts</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .demo-section h2 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .demo-section h3 {
+      color: #666;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .demo-section p {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .phone-container {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .phone-container h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .code-snippet {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .code-snippet code {
+      color: #f8f8f2;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+
+    .badge-success {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .badge-info {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📱 PhoneLib - Todos los Layouts</h1>
+  <p class="subtitle">Comparación de todos los modos de visualización disponibles</p>
+
+  <div class="demo-section">
+    <h2>Layout Integrado</h2>
+    <p>El selector de país y el input de teléfono están integrados en una sola línea.</p>
+
+    <div class="phone-container">
+      <h4>1. Layout Integrado <span class="badge badge-success">Con Código</span></h4>
+      <div id="phone-container-integrated-with-code"></div>
+      <div class="code-snippet">
+        <code>
+layout: 'integrated',<br>
+showDialCode: true
+        </code>
+      </div>
+    </div>
+
+    <div class="phone-container">
+      <h4>2. Layout Integrado <span class="badge badge-info">Sin Código</span></h4>
+      <div id="phone-container-integrated-no-code"></div>
+      <div class="code-snippet">
+        <code>
+layout: 'integrated',<br>
+showDialCode: false
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Layout Separado</h2>
+    <p>El país, código de marcación y número telefónico se muestran en campos separados.</p>
+
+    <div class="phone-container">
+      <h4>3. Layout Separado <span class="badge badge-success">Con Código</span></h4>
+      <div id="phone-container-separated-with-code"></div>
+      <div class="code-snippet">
+        <code>
+layout: 'separated',<br>
+showDialCode: true
+        </code>
+      </div>
+    </div>
+
+    <div class="phone-container">
+      <h4>4. Layout Separado <span class="badge badge-info">Sin Código</span></h4>
+      <div id="phone-container-separated-no-code"></div>
+      <div class="code-snippet">
+        <code>
+layout: 'separated',<br>
+showDialCode: false
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    async function init() {
+      try {
+        // Importar PhoneLib desde el archivo local
+        const PhoneLibModule = await import('./phone-lib.js');
+        const PhoneLib = PhoneLibModule.default;
+
+        // 1. Layout Integrado con código
+        new PhoneLib('#phone-container-integrated-with-code', {
+          initialCountry: 'CO',
+          preferredCountries: ['CO', 'US', 'ES'],
+          showHint: true,
+          layout: 'integrated',
+          showDialCode: true
+        });
+
+        // 2. Layout Integrado sin código
+        new PhoneLib('#phone-container-integrated-no-code', {
+          initialCountry: 'CO',
+          preferredCountries: ['CO', 'US', 'ES'],
+          showHint: true,
+          layout: 'integrated',
+          showDialCode: false
+        });
+
+        // 3. Layout Separado con código
+        new PhoneLib('#phone-container-separated-with-code', {
+          initialCountry: 'CO',
+          preferredCountries: ['CO', 'US', 'ES'],
+          showHint: true,
+          layout: 'separated',
+          showDialCode: true
+        });
+
+        // 4. Layout Separado sin código
+        new PhoneLib('#phone-container-separated-no-code', {
+          initialCountry: 'CO',
+          preferredCountries: ['CO', 'US', 'ES'],
+          showHint: true,
+          layout: 'separated',
+          showDialCode: false
+        });
+
+      } catch (error) {
+        console.error('Error al cargar la librería:', error);
+        document.body.innerHTML =
+          '<div style="color: #e74c3c; padding: 20px; background: #ffeaea; border-radius: 8px; border: 2px solid #e74c3c; max-width: 600px; margin: 40px auto;">' +
+          '<h3 style="margin-top: 0;">⚠️ Error al cargar la librería</h3>' +
+          '<p>Los módulos ES6 requieren un servidor HTTP. Por favor:</p>' +
+          '<ol style="margin: 10px 0; padding-left: 20px;">' +
+          '<li>Ejecuta: <code style="background: #fff; padding: 2px 6px; border-radius: 4px;">npm install</code></li>' +
+          '<li>Luego ejecuta: <code style="background: #fff; padding: 2px 6px; border-radius: 4px;">npm run serve</code></li>' +
+          '<li>O usa cualquier servidor HTTP local</li>' +
+          '</ol>' +
+          '</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

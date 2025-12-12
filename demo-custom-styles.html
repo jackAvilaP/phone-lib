@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - Estilos Personalizados</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .demo-section h2 {
+      color: #333;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .demo-section h3 {
+      color: #666;
+      margin-top: 25px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .phone-container {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .phone-container h4 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #333;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .code-block code {
+      color: #f8f8f2;
+    }
+
+    /* Estilos personalizados de ejemplo */
+    .custom-theme-dark .phone-lib-dropdown-button {
+      background: #2d2d2d;
+      border-color: #444;
+      color: white;
+    }
+
+    .custom-theme-dark .phone-lib-dropdown-button:hover {
+      background: #3d3d3d;
+    }
+
+    .custom-theme-dark .phone-lib-input {
+      background: #2d2d2d;
+      border-color: #444;
+      color: white;
+    }
+
+    .custom-theme-dark .phone-lib-input::placeholder {
+      color: #999;
+    }
+
+    .custom-rounded .phone-lib-dropdown-button,
+    .custom-rounded .phone-lib-input {
+      border-radius: 20px;
+    }
+
+    .custom-large .phone-lib-dropdown-button,
+    .custom-large .phone-lib-input {
+      padding: 16px 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🎨 PhoneLib - Estilos Personalizados</h1>
+  <p class="subtitle">Ejemplos de cómo personalizar los estilos de la librería</p>
+
+  <div class="demo-section">
+    <h2>Método 1: Clases CSS Personalizadas</h2>
+    <p>Puedes agregar tus propias clases CSS usando la opción <code>customClasses</code>:</p>
+
+    <div class="phone-container">
+      <h4>Ejemplo con clases personalizadas (tema oscuro)</h4>
+      <div id="phone-container-custom-classes"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  layout: 'integrated',
+  customClasses: {
+    wrapper: 'custom-theme-dark',
+    dropdownButton: 'custom-theme-dark',
+    input: 'custom-theme-dark'
+  }
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Método 2: Estilos Inline Personalizados</h2>
+    <p>Puedes aplicar estilos inline directamente usando la opción <code>customStyles</code>:</p>
+
+    <div class="phone-container">
+      <h4>Ejemplo con estilos inline (bordes redondeados y tamaño grande)</h4>
+      <div id="phone-container-custom-styles"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  layout: 'integrated',
+  customStyles: {
+    dropdownButton: {
+      borderRadius: '20px',
+      backgroundColor: '#4a90e2',
+      color: 'white',
+      borderColor: '#357abd'
+    },
+    input: {
+      borderRadius: '20px',
+      fontSize: '18px',
+      padding: '16px 20px'
+    }
+  }
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Método 3: Combinación de Clases y Estilos</h2>
+    <p>Puedes combinar ambos métodos para máximo control:</p>
+
+    <div class="phone-container">
+      <h4>Ejemplo combinado (clases + estilos inline)</h4>
+      <div id="phone-container-combined"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  layout: 'integrated',
+  customClasses: {
+    wrapper: 'custom-rounded custom-large'
+  },
+  customStyles: {
+    dropdownButton: {
+      backgroundColor: '#27ae60',
+      borderColor: '#229954',
+      color: 'white'
+    },
+    input: {
+      borderColor: '#27ae60'
+    }
+  }
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Layout Separado con Estilos Personalizados</h2>
+    <p>También puedes personalizar el layout separado:</p>
+
+    <div class="phone-container">
+      <h4>Layout separado con estilos personalizados</h4>
+      <div id="phone-container-separated-custom"></div>
+      <div class="code-block">
+        <code>
+const phoneLib = new PhoneLib('#phone-container', {
+  layout: 'separated',
+  showDialCode: true,
+  customStyles: {
+    wrapper: {
+      maxWidth: '100%'
+    },
+    row: {
+      gap: '16px'
+    },
+    dropdownButton: {
+      backgroundColor: '#f0f7ff',
+      borderColor: '#4a90e2'
+    },
+    input: {
+      borderColor: '#4a90e2'
+    },
+    dialCodeInput: {
+      backgroundColor: '#f9f9f9',
+      fontWeight: 'bold'
+    }
+  }
+});
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Elementos Personalizables</h2>
+    <p>Puedes personalizar los siguientes elementos:</p>
+    <ul>
+      <li><strong>wrapper</strong> - Contenedor principal</li>
+      <li><strong>dropdownButton</strong> - Botón del selector de país</li>
+      <li><strong>input</strong> - Campo de entrada de teléfono</li>
+      <li><strong>dialCodeInput</strong> - Campo de código (solo layout separado)</li>
+      <li><strong>row</strong> - Fila del grid (solo layout separado)</li>
+    </ul>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    async function init() {
+      try {
+        const PhoneLibModule = await import('./phone-lib.js');
+        const PhoneLib = PhoneLibModule.default;
+
+        // Ejemplo 1: Clases CSS personalizadas
+        new PhoneLib('#phone-container-custom-classes', {
+          initialCountry: 'CO',
+          layout: 'integrated',
+          customClasses: {
+            wrapper: 'custom-theme-dark',
+            dropdownButton: 'custom-theme-dark',
+            input: 'custom-theme-dark'
+          }
+        });
+
+        // Ejemplo 2: Estilos inline personalizados
+        new PhoneLib('#phone-container-custom-styles', {
+          initialCountry: 'CO',
+          layout: 'integrated',
+          customStyles: {
+            dropdownButton: {
+              borderRadius: '20px',
+              backgroundColor: '#4a90e2',
+              color: 'white',
+              borderColor: '#357abd'
+            },
+            input: {
+              borderRadius: '20px',
+              fontSize: '18px',
+              padding: '16px 20px'
+            }
+          }
+        });
+
+        // Ejemplo 3: Combinación de clases y estilos
+        new PhoneLib('#phone-container-combined', {
+          initialCountry: 'CO',
+          layout: 'integrated',
+          customClasses: {
+            wrapper: 'custom-rounded custom-large'
+          },
+          customStyles: {
+            dropdownButton: {
+              backgroundColor: '#27ae60',
+              borderColor: '#229954',
+              color: 'white'
+            },
+            input: {
+              borderColor: '#27ae60'
+            }
+          }
+        });
+
+        // Ejemplo 4: Layout separado con estilos personalizados
+        new PhoneLib('#phone-container-separated-custom', {
+          initialCountry: 'CO',
+          layout: 'separated',
+          showDialCode: true,
+          customStyles: {
+            wrapper: {
+              maxWidth: '100%'
+            },
+            row: {
+              gap: '16px'
+            },
+            dropdownButton: {
+              backgroundColor: '#f0f7ff',
+              borderColor: '#4a90e2'
+            },
+            input: {
+              borderColor: '#4a90e2'
+            },
+            dialCodeInput: {
+              backgroundColor: '#f9f9f9',
+              fontWeight: 'bold'
+            }
+          }
+        });
+
+      } catch (error) {
+        console.error('Error al cargar la librería:', error);
+        document.body.innerHTML =
+          '<div style="color: #e74c3c; padding: 20px; background: #ffeaea; border-radius: 8px; border: 2px solid #e74c3c; max-width: 600px; margin: 40px auto;">' +
+          '<h3 style="margin-top: 0;">⚠️ Error al cargar la librería</h3>' +
+          '<p>Los módulos ES6 requieren un servidor HTTP. Por favor ejecuta: <code>npm run serve</code></p>' +
+          '</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

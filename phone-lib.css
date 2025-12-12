@@ -1,0 +1,377 @@
+/* PhoneLib - Estilos básicos */
+
+.phone-lib-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 400px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.phone-lib-dropdown-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.phone-lib-dropdown-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  min-width: 120px;
+  height: 100%;
+}
+
+.phone-lib-dropdown-button:hover {
+  background: #f5f5f5;
+  border-color: #b0b0b0;
+}
+
+.phone-lib-dropdown-button.active {
+  border-color: #4a90e2;
+  background: #f0f7ff;
+}
+
+.phone-lib-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.phone-lib-flag-img {
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.phone-lib-dial-code {
+  font-weight: 500;
+  color: #333;
+}
+
+.phone-lib-arrow {
+  font-size: 10px;
+  color: #666;
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+.phone-lib-dropdown-button.active .phone-lib-arrow {
+  transform: rotate(180deg);
+}
+
+.phone-lib-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.phone-lib-countries-list {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.phone-lib-country-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.phone-lib-country-item:last-child {
+  border-bottom: none;
+}
+
+.phone-lib-country-item:hover {
+  background: #f5f5f5;
+}
+
+.phone-lib-country-item.selected {
+  background: #e8f4fd;
+  font-weight: 500;
+}
+
+.phone-lib-country-item .phone-lib-flag {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 18px;
+}
+
+.phone-lib-country-item .phone-lib-flag-img {
+  width: 24px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.phone-lib-country-name {
+  flex: 1;
+  color: #333;
+}
+
+.phone-lib-country-dial-code {
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.phone-lib-input-container {
+  flex: 1;
+  position: relative;
+}
+
+.phone-lib-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.phone-lib-input:focus {
+  border-color: #4a90e2;
+  border-left: 2px solid #4a90e2;
+}
+
+.phone-lib-input-invalid {
+  border-color: #e74c3c !important;
+}
+
+.phone-lib-input-valid {
+  border-color: #27ae60 !important;
+}
+
+.phone-lib-hint {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.phone-lib-hint.valid {
+  color: #27ae60;
+  background: #e8f5e9;
+}
+
+.phone-lib-hint.invalid {
+  color: #e74c3c;
+  background: #ffeaea;
+}
+
+/* Estados disabled y readonly */
+.phone-lib-disabled .phone-lib-dropdown-button,
+.phone-lib-disabled .phone-lib-input,
+.phone-lib-disabled .phone-lib-input-separated {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f5f5f5;
+}
+
+.phone-lib-disabled .phone-lib-dropdown-button:hover {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}
+
+.phone-lib-readonly .phone-lib-input,
+.phone-lib-readonly .phone-lib-input-separated {
+  background: #f9f9f9;
+  cursor: default;
+}
+
+.phone-lib-country-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.phone-lib-country-item.disabled:hover {
+  background: transparent;
+}
+
+/* Layout Separado - Campos separados */
+.phone-lib-layout-separated {
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.phone-lib-separated-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.phone-lib-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phone-lib-field-group-phone {
+  grid-column: span 1;
+}
+
+.phone-lib-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.phone-lib-dropdown-button-separated {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+}
+
+.phone-lib-dropdown-button-separated:hover {
+  background: #f5f5f5;
+  border-color: #b0b0b0;
+}
+
+.phone-lib-dropdown-button-separated.active {
+  border-color: #4a90e2;
+  background: #f0f7ff;
+}
+
+.phone-lib-country-name-display {
+  flex: 1;
+  color: #333;
+  font-weight: 500;
+}
+
+.phone-lib-dial-code-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  background: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.phone-lib-input-separated {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.phone-lib-input-separated:focus {
+  border-color: #4a90e2;
+}
+
+.phone-lib-input-separated.phone-lib-input-invalid {
+  border-color: #e74c3c !important;
+}
+
+.phone-lib-input-separated.phone-lib-input-valid {
+  border-color: #27ae60 !important;
+}
+
+/* Responsive para layout separado */
+@media (max-width: 768px) {
+  .phone-lib-separated-row {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-lib-field-group-phone {
+    grid-column: span 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .phone-lib-wrapper {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .phone-lib-dropdown-button {
+    border-right: 2px solid #e0e0e0;
+    border-radius: 8px 8px 0 0;
+    width: 100%;
+  }
+
+  .phone-lib-dropdown-button.active {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .phone-lib-input {
+    border-left: 2px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .phone-lib-input:focus {
+    border-top: 2px solid #4a90e2;
+    border-left: 2px solid #4a90e2;
+  }
+
+  .phone-lib-dropdown-menu {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 50vh;
+    border-radius: 16px 16px 0 0;
+  }
+}
