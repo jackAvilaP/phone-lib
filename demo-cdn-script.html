@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - CDN con Script Tag</title>
+
+  <!-- CSS desde CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: #e8f4f8;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      border-left: 4px solid #4a90e2;
+    }
+
+    .phone-container {
+      margin: 20px 0;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+
+    .error {
+      color: #e74c3c;
+      background: #ffeaea;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: #357abd;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📦 PhoneLib - Uso desde CDN con Script Tag</h1>
+
+  <div class="info-box">
+    <h3>✅ Método: Script Tag Simple</h3>
+    <p><strong>Ventajas:</strong></p>
+    <ul>
+      <li>✅ Funciona en todos los navegadores modernos</li>
+      <li>✅ No requiere bundler</li>
+      <li>✅ Más simple de usar</li>
+    </ul>
+    <p><strong>Nota:</strong> La librería se carga automáticamente. Espera a que aparezca "PhoneLib listo" antes de
+      usar.</p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Ejemplo Funcional</h2>
+    <div id="loading-status" class="loading">Cargando PhoneLib...</div>
+    <div id="error-status" class="error" style="display: none;"></div>
+
+    <div class="phone-container" id="phone-container" style="display: none;">
+      <div id="phone-input-container"></div>
+    </div>
+
+    <div id="controls" style="display: none; margin-top: 20px;">
+      <button onclick="setCountry('ES')">Establecer España</button>
+      <button onclick="setCountry('US')">Establecer USA</button>
+      <button onclick="getInfo()">Obtener Información</button>
+      <button onclick="resetPhone()">Resetear</button>
+    </div>
+
+    <div id="info-display"
+      style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 6px; display: none;">
+      <h3>Información del Número:</h3>
+      <pre id="info-content"></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Código HTML Completo</h2>
+    <div class="code-block">
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mi App&lt;/title&gt;
+  
+  &lt;!-- CSS desde CDN --&gt;
+  &lt;link rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="phone-container"&gt;&lt;/div&gt;
+
+  &lt;!-- Script desde CDN --&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    let phoneLib = null;
+
+    // Esperar a que PhoneLib esté listo
+    document.addEventListener('phoneLibReady', () => {
+      phoneLib = new PhoneLib('#phone-container', {
+        initialCountry: 'CO',
+        layout: 'integrated',
+        showDialCode: true,
+        showHint: true,
+        
+        onCountryChange: (country, dialCode) => {
+          console.log('País:', country, 'Código:', dialCode);
+        },
+        
+        onPhoneChange: (phone, isValid) => {
+          console.log('Número:', phone, 'Válido:', isValid);
+        }
+      });
+    });
+
+    // Manejar errores
+    document.addEventListener('phoneLibError', (e) => {
+      console.error('Error cargando PhoneLib:', e.detail.error);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+  </div>
+
+  <!-- Script desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+
+  <script>
+    let phoneLib = null;
+
+    // Esperar a que PhoneLib esté listo
+    document.addEventListener('phoneLibReady', () => {
+      const loadingStatus = document.getElementById('loading-status');
+      const phoneContainer = document.getElementById('phone-container');
+      const controls = document.getElementById('controls');
+
+      loadingStatus.textContent = 'PhoneLib listo ✓';
+      loadingStatus.style.color = '#27ae60';
+
+      setTimeout(() => {
+        loadingStatus.style.display = 'none';
+        phoneContainer.style.display = 'block';
+        controls.style.display = 'block';
+
+        // Inicializar PhoneLib
+        phoneLib = new PhoneLib('#phone-input-container', {
+          initialCountry: 'CO',
+          layout: 'integrated',
+          showDialCode: true,
+          showHint: true,
+
+          onCountryChange: (country, dialCode, countryName) => {
+            console.log('País cambiado:', countryName, `(${dialCode})`);
+          },
+
+          onPhoneChange: (phone, isValid, country) => {
+            console.log('Número:', phone, 'Válido:', isValid);
+          },
+
+          onValidationChange: (isValid) => {
+            console.log('Validación:', isValid ? 'Válido' : 'Inválido');
+          }
+        });
+      }, 500);
+    });
+
+    // Manejar errores
+    document.addEventListener('phoneLibError', (e) => {
+      const loadingStatus = document.getElementById('loading-status');
+      const errorStatus = document.getElementById('error-status');
+
+      loadingStatus.style.display = 'none';
+      errorStatus.style.display = 'block';
+      errorStatus.textContent = 'Error cargando PhoneLib: ' + e.detail.error.message;
+      console.error('Error:', e.detail.error);
+    });
+
+    // Funciones de control
+    function setCountry(iso2) {
+      if (phoneLib) {
+        phoneLib.setCountry(iso2);
+      }
+    }
+
+    function getInfo() {
+      if (phoneLib) {
+        const info = phoneLib.getInfo();
+        const infoDisplay = document.getElementById('info-display');
+        const infoContent = document.getElementById('info-content');
+
+        infoDisplay.style.display = 'block';
+        infoContent.textContent = JSON.stringify(info, null, 2);
+      }
+    }
+
+    function resetPhone() {
+      if (phoneLib) {
+        phoneLib.reset();
+        document.getElementById('info-display').style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

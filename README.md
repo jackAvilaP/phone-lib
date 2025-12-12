@@ -29,9 +29,15 @@ Librería JavaScript moderna para integrar fácilmente un input de teléfono con
 
 ## 📦 Installation / Instalación
 
+### Option 1: npm / Opción 1: npm
+
 ```bash
 npm install @jacksonavila/phone-lib
 ```
+
+### Option 2: CDN (No npm required) / Opción 2: CDN (Sin npm)
+
+Use directly from CDN / Usar directamente desde CDN - see [Using from CDN / Usar desde CDN](#-using-from-cdn--usar-desde-cdn) section below / ver sección abajo.
 
 ### Dependencies / Dependencias
 
@@ -42,6 +48,87 @@ npm install react react-dom
 # libphonenumber-js is installed automatically
 # libphonenumber-js se instala automáticamente
 ```
+
+---
+
+## 🌐 Using from CDN / Usar desde CDN
+
+You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib directamente desde CDN sin npm.
+
+### Method 1: Import Maps (Modern Browsers) / Método 1: Import Maps (Navegadores Modernos)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+</head>
+<body>
+  <div id="phone-container"></div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js",
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import PhoneLib from '@jacksonavila/phone-lib';
+
+    const phoneLib = new PhoneLib('#phone-container', {
+      initialCountry: 'CO',
+      layout: 'integrated',
+      showDialCode: true
+    });
+  </script>
+</body>
+</html>
+```
+
+**CDN URLs / URLs de CDN:**
+- **jsDelivr:** `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/`
+- **unpkg:** `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/`
+
+### Method 2: Script Tag (All Browsers) / Método 2: Script Tag (Todos los Navegadores)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+</head>
+<body>
+  <div id="phone-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+  
+  <script>
+    let phoneLib = null;
+
+    // Wait for PhoneLib to be ready / Esperar a que PhoneLib esté listo
+    document.addEventListener('phoneLibReady', () => {
+      phoneLib = new PhoneLib('#phone-container', {
+        initialCountry: 'CO',
+        layout: 'integrated',
+        showDialCode: true
+      });
+    });
+
+    // Handle errors / Manejar errores
+    document.addEventListener('phoneLibError', (e) => {
+      console.error('Error loading PhoneLib:', e.detail.error);
+    });
+  </script>
+</body>
+</html>
+```
+
+**⚠️ Important / Importante:** You need an HTTP server / Necesitas un servidor HTTP (doesn't work with `file://` / no funciona con `file://`)
+
+📖 **Complete CDN guide / Guía completa de CDN:** See [USO-SIN-NPM.md](./USO-SIN-NPM.md) / Ver [USO-SIN-NPM.md](./USO-SIN-NPM.md)
 
 ---
 
@@ -806,6 +893,8 @@ This will open `http://localhost:3004` with all available demos / Esto abrirá `
 - `demo-all-layouts.html` - All layouts comparison / Comparación de todos los layouts
 - `demo-features.html` - All features / Todas las características
 - `demo-react.html` - React example / Ejemplo con React
+- `demo-cdn-importmap.html` - CDN with Import Maps / CDN con Import Maps
+- `demo-cdn-script.html` - CDN with Script Tag / CDN con Script Tag
 
 ---
 

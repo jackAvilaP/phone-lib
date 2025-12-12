@@ -14,7 +14,8 @@
       "import": "./phone-lib-react.jsx",
       "require": "./phone-lib-react.js"
     },
-    "./css": "./phone-lib.css"
+    "./css": "./phone-lib.css",
+    "./cdn": "./phone-lib.cdn.js"
   },
   "scripts": {
     "serve": "npx http-server . -p 3004 -o",
@@ -64,6 +65,7 @@
   "files": [
     "phone-lib.js",
     "phone-lib.css",
+    "phone-lib.cdn.js",
     "phone-lib-react.jsx",
     "phone-lib-react.js",
     "README.md"

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhoneLib - CDN con Import Maps</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .demo-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    .info-box {
+      background: #e8f4f8;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      border-left: 4px solid #4a90e2;
+    }
+
+    .phone-container {
+      margin: 20px 0;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📦 PhoneLib - Uso desde CDN con Import Maps</h1>
+
+  <div class="info-box">
+    <h3>✅ Método: Import Maps</h3>
+    <p><strong>Ventajas:</strong></p>
+    <ul>
+      <li>✅ Funciona con módulos ES6 nativos</li>
+      <li>✅ Código más limpio</li>
+      <li>✅ Mejor para proyectos modernos</li>
+    </ul>
+    <p><strong>Requisitos:</strong> Navegadores modernos que soporten Import Maps (Chrome 89+, Edge 89+, Safari 16.4+)
+    </p>
+  </div>
+
+  <div class="demo-section">
+    <h2>Ejemplo Funcional</h2>
+    <div class="phone-container">
+      <div id="phone-container"></div>
+    </div>
+
+    <button id="get-info-btn"
+      style="padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 6px; cursor: pointer; margin-top: 10px;">
+      Obtener Información
+    </button>
+
+    <div id="info-display"
+      style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 6px; display: none;">
+      <h3>Información del Número:</h3>
+      <pre id="info-content"></pre>
+    </div>
+  </div>
+
+  <div class="demo-section">
+    <h2>Código HTML Completo</h2>
+    <div class="code-block">
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mi App&lt;/title&gt;
+  
+  &lt;!-- CSS desde CDN --&gt;
+  &lt;link rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="phone-container"&gt;&lt;/div&gt;
+
+  &lt;!-- Import Map para módulos ES6 --&gt;
+  &lt;script type="importmap"&gt;
+    {
+      "imports": {
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js",
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  &lt;/script&gt;
+
+  &lt;script type="module"&gt;
+    import PhoneLib from '@jacksonavila/phone-lib';
+
+    const phoneLib = new PhoneLib('#phone-container', {
+      initialCountry: 'CO',
+      layout: 'integrated',
+      showDialCode: true,
+      showHint: true,
+      
+      onCountryChange: (country, dialCode) => {
+        console.log('País:', country, 'Código:', dialCode);
+      },
+      
+      onPhoneChange: (phone, isValid) => {
+        console.log('Número:', phone, 'Válido:', isValid);
+      }
+    });
+
+    // Usar métodos
+    const info = phoneLib.getInfo();
+    console.log('Información:', info);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+  </div>
+
+  <!-- Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js",
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import PhoneLib from '@jacksonavila/phone-lib';
+
+    const phoneLib = new PhoneLib('#phone-container', {
+      initialCountry: 'CO',
+      layout: 'integrated',
+      showDialCode: true,
+      showHint: true,
+
+      onCountryChange: (country, dialCode, countryName) => {
+        console.log('País cambiado:', countryName, `(${dialCode})`);
+      },
+
+      onPhoneChange: (phone, isValid, country) => {
+        console.log('Número:', phone, 'Válido:', isValid);
+      },
+
+      onValidationChange: (isValid) => {
+        console.log('Validación:', isValid ? 'Válido' : 'Inválido');
+      }
+    });
+
+    // Botón para obtener información
+    document.getElementById('get-info-btn').addEventListener('click', () => {
+      const info = phoneLib.getInfo();
+      const infoDisplay = document.getElementById('info-display');
+      const infoContent = document.getElementById('info-content');
+
+      infoDisplay.style.display = 'block';
+      infoContent.textContent = JSON.stringify(info, null, 2);
+    });
+  </script>
+</body>
+
+</html>
