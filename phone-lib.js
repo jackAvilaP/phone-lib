@@ -27,6 +27,18 @@ class PhoneLib {
       showDialCode: options.showDialCode !== undefined ? options.showDialCode : true, // Mostrar código de marcación
       customClasses: options.customClasses || {}, // Clases CSS personalizadas
       customStyles: options.customStyles || {}, // Estilos inline personalizados
+      // Icono de flecha personalizable
+      arrowIcon: options.arrowIcon || null, // HTML personalizado para la flecha (ej: SVG, imagen, etc.)
+      // Control de anchos
+      width: options.width || null, // Ancho del wrapper (ej: '500px', '100%', '50rem')
+      maxWidth: options.maxWidth || null, // Ancho máximo del wrapper
+      dropdownWidth: options.dropdownWidth || null, // Ancho del selector de país (layout integrado)
+      inputWidth: options.inputWidth || null, // Ancho del campo de teléfono (layout integrado)
+      // Para layout separado
+      gridColumns: options.gridColumns || null, // Columnas del grid (ej: '1fr 1fr 2fr', '2fr 1fr 3fr')
+      countryWidth: options.countryWidth || null, // Ancho del campo país (layout separado)
+      dialCodeWidth: options.dialCodeWidth || null, // Ancho del campo código (layout separado)
+      phoneWidth: options.phoneWidth || null, // Ancho del campo teléfono (layout separado)
       // Callbacks y eventos
       onCountryChange: options.onCountryChange || null,
       onPhoneChange: options.onPhoneChange || null,
@@ -390,6 +402,24 @@ class PhoneLib {
       .join(' ');
   }
 
+  /**
+   * Obtiene el HTML del icono de flecha
+   */
+  getArrowIcon() {
+    // Si hay un icono personalizado, usarlo
+    if (this.options.arrowIcon) {
+      return this.options.arrowIcon;
+    }
+
+    // Chevron SVG por defecto (simple, apuntando hacia abajo - solo líneas, sin relleno)
+    // Forma de chevron: dos líneas que forman una V apuntando hacia abajo
+    // Usa dos paths separados para asegurar que se vea como chevron, no triángulo
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="3" y1="5" x2="6" y2="8"/>
+      <line x1="6" y1="8" x2="9" y2="5"/>
+    </svg>`;
+  }
+
   renderIntegrated() {
     const selectedCountryData = this.countries.find(c => c.iso2 === this.selectedCountry);
     const defaultFlag = this.getFlagImage('UN');
@@ -398,19 +428,33 @@ class PhoneLib {
       'phone-lib-wrapper phone-lib-layout-integrated',
       this.options.customClasses?.wrapper
     );
-    const wrapperStyle = this.applyCustomStyles(this.options.customStyles?.wrapper);
+
+    // Aplicar estilos personalizados y anchos
+    let wrapperStyle = this.applyCustomStyles(this.options.customStyles?.wrapper);
+    if (this.options.width) {
+      wrapperStyle += ` width: ${this.options.width};`;
+    }
+    if (this.options.maxWidth) {
+      wrapperStyle += ` max-width: ${this.options.maxWidth};`;
+    }
 
     const dropdownButtonClass = this.applyCustomClasses(
       'phone-lib-dropdown-button',
       this.options.customClasses?.dropdownButton
     );
-    const dropdownButtonStyle = this.applyCustomStyles(this.options.customStyles?.dropdownButton);
+    let dropdownButtonStyle = this.applyCustomStyles(this.options.customStyles?.dropdownButton);
+    if (this.options.dropdownWidth) {
+      dropdownButtonStyle += ` min-width: ${this.options.dropdownWidth}; width: ${this.options.dropdownWidth};`;
+    }
 
     const inputClass = this.applyCustomClasses(
       'phone-lib-input',
       this.options.customClasses?.input
     );
-    const inputStyle = this.applyCustomStyles(this.options.customStyles?.input);
+    let inputStyle = this.applyCustomStyles(this.options.customStyles?.input);
+    if (this.options.inputWidth) {
+      inputStyle += ` width: ${this.options.inputWidth};`;
+    }
 
     this.container.innerHTML = `
       <div class="${wrapperClass}" ${wrapperStyle ? `style="${wrapperStyle}"` : ''}>
@@ -418,7 +462,7 @@ class PhoneLib {
           <button type="button" class="${dropdownButtonClass}" ${dropdownButtonStyle ? `style="${dropdownButtonStyle}"` : ''} aria-expanded="false" ${this.isDisabled ? 'disabled' : ''} aria-label="${this.options.ariaLabels.dropdownButton}">
             <span class="phone-lib-flag">${selectedCountryData?.flag || defaultFlag}</span>
             ${this.options.showDialCode ? `<span class="phone-lib-dial-code">+${selectedCountryData?.dialCode || ''}</span>` : ''}
-            <span class="phone-lib-arrow">▼</span>
+            <span class="phone-lib-arrow">${this.getArrowIcon()}</span>
           </button>
           <div class="phone-lib-dropdown-menu" style="display: none;">
             <div class="phone-lib-countries-list">
@@ -466,13 +510,21 @@ class PhoneLib {
     const defaultFlag = this.getFlagImage('UN');
 
     // Determinar las columnas del grid según si se muestra el código
-    const gridColumns = this.options.showDialCode ? '2fr 1fr 2fr' : '1fr 2fr';
+    let gridColumns = this.options.gridColumns || (this.options.showDialCode ? '2fr 1fr 2fr' : '1fr 2fr');
 
     const wrapperClass = this.applyCustomClasses(
       'phone-lib-wrapper phone-lib-layout-separated',
       this.options.customClasses?.wrapper
     );
-    const wrapperStyle = this.applyCustomStyles(this.options.customStyles?.wrapper);
+
+    // Aplicar estilos personalizados y anchos
+    let wrapperStyle = this.applyCustomStyles(this.options.customStyles?.wrapper);
+    if (this.options.width) {
+      wrapperStyle += ` width: ${this.options.width};`;
+    }
+    if (this.options.maxWidth) {
+      wrapperStyle += ` max-width: ${this.options.maxWidth};`;
+    }
 
     const rowStyle = this.applyCustomStyles(this.options.customStyles?.row);
     const finalRowStyle = `grid-template-columns: ${gridColumns};${rowStyle ? ` ${rowStyle}` : ''}`;
@@ -481,19 +533,28 @@ class PhoneLib {
       'phone-lib-dropdown-button-separated',
       this.options.customClasses?.dropdownButton
     );
-    const dropdownButtonStyle = this.applyCustomStyles(this.options.customStyles?.dropdownButton);
+    let dropdownButtonStyle = this.applyCustomStyles(this.options.customStyles?.dropdownButton);
+    if (this.options.countryWidth) {
+      dropdownButtonStyle += ` width: ${this.options.countryWidth};`;
+    }
 
     const dialCodeInputClass = this.applyCustomClasses(
       'phone-lib-dial-code-input',
       this.options.customClasses?.dialCodeInput
     );
-    const dialCodeInputStyle = this.applyCustomStyles(this.options.customStyles?.dialCodeInput);
+    let dialCodeInputStyle = this.applyCustomStyles(this.options.customStyles?.dialCodeInput);
+    if (this.options.dialCodeWidth) {
+      dialCodeInputStyle += ` width: ${this.options.dialCodeWidth};`;
+    }
 
     const inputClass = this.applyCustomClasses(
       'phone-lib-input-separated',
       this.options.customClasses?.input
     );
-    const inputStyle = this.applyCustomStyles(this.options.customStyles?.input);
+    let inputStyle = this.applyCustomStyles(this.options.customStyles?.input);
+    if (this.options.phoneWidth) {
+      inputStyle += ` width: ${this.options.phoneWidth};`;
+    }
 
     this.container.innerHTML = `
       <div class="${wrapperClass}" ${wrapperStyle ? `style="${wrapperStyle}"` : ''}>
@@ -504,7 +565,7 @@ class PhoneLib {
               <button type="button" class="${dropdownButtonClass}" ${dropdownButtonStyle ? `style="${dropdownButtonStyle}"` : ''} aria-expanded="false" ${this.isDisabled ? 'disabled' : ''} aria-label="${this.options.ariaLabels.dropdownButton}">
                 <span class="phone-lib-flag">${selectedCountryData?.flag || defaultFlag}</span>
                 <span class="phone-lib-country-name-display">${selectedCountryData?.name || ''}</span>
-                <span class="phone-lib-arrow">▼</span>
+                <span class="phone-lib-arrow">${this.getArrowIcon()}</span>
               </button>
               <div class="phone-lib-dropdown-menu" style="display: none;">
                 <div class="phone-lib-countries-list">
@@ -1235,7 +1296,7 @@ class PhoneLib {
     }
 
     // Re-renderizar si cambió layout u opciones visuales importantes
-    if (newOptions.layout || newOptions.showDialCode !== undefined || newOptions.customClasses || newOptions.customStyles) {
+    if (newOptions.layout || newOptions.showDialCode !== undefined || newOptions.customClasses || newOptions.customStyles || newOptions.arrowIcon !== undefined) {
       this.render();
       this.attachEventListeners();
     }

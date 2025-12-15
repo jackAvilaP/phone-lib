@@ -29,7 +29,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
   
   <!-- CSS desde CDN / CSS from CDN -->
   <link rel="stylesheet" 
-        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
 </head>
 <body>
   <h1>Formulario de Contacto</h1>
@@ -42,7 +42,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
   <script type="importmap">
     {
       "imports": {
-        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js",
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.js",
         "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
       }
     }
@@ -89,12 +89,12 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
 ### URLs de CDN Disponibles / Available CDN URLs
 
 **jsDelivr (Recomendado / Recommended):**
-- CSS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css`
-- JS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js`
+- CSS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css`
+- JS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.js`
 
 **unpkg:**
-- CSS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/phone-lib.css`
-- JS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/phone-lib.js`
+- CSS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/phone-lib.css`
+- JS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/phone-lib.js`
 
 ---
 
@@ -118,7 +118,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
   
   <!-- CSS desde CDN / CSS from CDN -->
   <link rel="stylesheet" 
-        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+        href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
 </head>
 <body>
   <h1>Formulario de Contacto</h1>
@@ -128,7 +128,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
   <button id="submit-btn">Enviar</button>
 
   <!-- Script desde CDN / Script from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
   
   <script>
     let phoneLib = null;
@@ -185,12 +185,12 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
 ### URLs de CDN para Script Tag / CDN URLs for Script Tag
 
 **jsDelivr:**
-- CSS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css`
-- JS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js`
+- CSS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css`
+- JS: `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js`
 
 **unpkg:**
-- CSS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/phone-lib.css`
-- JS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js`
+- CSS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/phone-lib.css`
+- JS: `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js`
 
 ---
 
@@ -213,7 +213,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
 <head>
   <meta charset="UTF-8">
   <title>Formulario de Contacto</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -261,7 +261,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
     <button type="submit">Enviar</button>
   </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
   
   <script>
     let phoneLib = null;
@@ -314,7 +314,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
 ## 🔧 Control Programático con Script Tag
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
 <script>
   let phoneLib = null;
 
@@ -358,7 +358,7 @@ Esta guía te muestra cómo usar `@jacksonavila/phone-lib` **sin instalar npm**,
    - Usa: `python -m http.server 8000` o `npx http-server . -p 8000`
 
 2. **Versión específica / Specific version**
-   - Usa `@2.0.1` o la versión más reciente / Use `@2.0.1` or latest version
+   - Usa `@2.0.5` o la versión más reciente / Use `@2.0.5` or latest version
    - Puedes usar `@latest` pero no es recomendado / You can use `@latest` but not recommended
 
 3. **Con Script Tag / With Script Tag**
@@ -382,7 +382,7 @@ npx http-server . -p 8000
 
 **Solución / Solution:** Verifica que la ruta del CSS sea correcta / Verify CSS path is correct:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
 ```
 
 ### PhoneLib no está disponible / PhoneLib not available

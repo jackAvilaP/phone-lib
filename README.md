@@ -61,7 +61,7 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
 </head>
 <body>
   <div id="phone-container"></div>
@@ -69,7 +69,7 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
   <script type="importmap">
     {
       "imports": {
-        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.js",
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.js",
         "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
       }
     }
@@ -89,8 +89,8 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 ```
 
 **CDN URLs / URLs de CDN:**
-- **jsDelivr:** `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/`
-- **unpkg:** `https://unpkg.com/@jacksonavila/phone-lib@2.0.1/`
+- **jsDelivr:** `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/`
+- **unpkg:** `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/`
 
 ### Method 2: Script Tag (All Browsers) / Método 2: Script Tag (Todos los Navegadores)
 
@@ -98,12 +98,12 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
 </head>
 <body>
   <div id="phone-container"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.1/phone-lib.cdn.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
   
   <script>
     let phoneLib = null;
@@ -548,6 +548,19 @@ const phoneLib = new PhoneLib('#container', {
     valid: '✓ Valid number'
   },
   
+  // Width control / Control de anchos
+  width: '500px',              // Wrapper width / Ancho del wrapper
+  maxWidth: '100%',            // Max width / Ancho máximo
+  dropdownWidth: '150px',      // Country selector width (integrated) / Ancho selector (integrado)
+  inputWidth: '350px',         // Phone input width (integrated) / Ancho input (integrado)
+  gridColumns: '3fr 1fr 4fr',  // Grid columns (separated) / Columnas grid (separado)
+  countryWidth: '250px',       // Country field width (separated) / Ancho campo país (separado)
+  dialCodeWidth: '100px',      // Dial code width (separated) / Ancho código (separado)
+  phoneWidth: '350px',         // Phone field width (separated) / Ancho campo teléfono (separado)
+  
+  // Arrow icon / Icono de flecha
+  arrowIcon: null,  // Custom arrow HTML (SVG, emoji, image) / HTML personalizado para flecha
+  
   // Styles / Estilos
   customClasses: {
     wrapper: 'my-class',
@@ -772,6 +785,25 @@ const phoneLib = new PhoneLib('#container', {
 });
 ```
 
+### Custom Arrow Icon / Icono de Flecha Personalizado
+
+```javascript
+const phoneLib = new PhoneLib('#container', {
+  // Opción 1: SVG personalizado
+  arrowIcon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+    <path d="M3 4.5 L6 7.5 L9 4.5" stroke="#333" stroke-width="2" fill="none"/>
+  </svg>`,
+  
+  // Opción 2: Emoji
+  arrowIcon: '▼',
+  
+  // Opción 3: Imagen
+  arrowIcon: '<img src="arrow.png" alt="▼" style="width: 12px; height: 12px;">'
+});
+```
+
+**Nota:** Si no se especifica `arrowIcon`, se usa un chevron SVG por defecto.
+
 ### Customizable Elements / Elementos Personalizables
 
 - `wrapper` - Main container / Contenedor principal
@@ -779,6 +811,7 @@ const phoneLib = new PhoneLib('#container', {
 - `input` - Phone input field / Campo de entrada de teléfono
 - `dialCodeInput` - Dial code field (separated layout only) / Campo de código (solo layout separado)
 - `row` - Grid row (separated layout only) / Fila del grid (solo layout separado)
+- `arrowIcon` - Dropdown arrow icon / Icono de flecha del dropdown
 
 ---
 
@@ -860,8 +893,17 @@ const phoneLib = new PhoneLib('#container', {
 | `countryLabel` | string | `'Country'` / `'País'` | Label for selector / Label para selector |
 | `dialCodeLabel` | string | `'Code'` / `'Código'` | Label for code / Label para código |
 | `phoneLabel` | string | `'Phone number'` / `'Número de teléfono'` | Label for number / Label para número |
+| `arrowIcon` | string | `null` | Custom arrow HTML (SVG, emoji, image) / HTML personalizado para flecha |
 | `customClasses` | object | `{}` | Custom CSS classes / Clases CSS personalizadas |
 | `customStyles` | object | `{}` | Inline styles / Estilos inline personalizados |
+| `width` | string | `null` | Wrapper width (e.g., `'500px'`, `'100%'`) / Ancho del wrapper |
+| `maxWidth` | string | `null` | Max wrapper width / Ancho máximo del wrapper |
+| `dropdownWidth` | string | `null` | Country selector width (integrated) / Ancho selector (integrado) |
+| `inputWidth` | string | `null` | Phone input width (integrated) / Ancho input (integrado) |
+| `gridColumns` | string | `null` | Grid columns (separated, e.g., `'3fr 1fr 4fr'`) / Columnas grid (separado) |
+| `countryWidth` | string | `null` | Country field width (separated) / Ancho campo país (separado) |
+| `dialCodeWidth` | string | `null` | Dial code width (separated) / Ancho código (separado) |
+| `phoneWidth` | string | `null` | Phone field width (separated) / Ancho campo teléfono (separado) |
 | `messages` | object | `{}` | Custom messages / Mensajes personalizables |
 | `ariaLabels` | object | `{}` | ARIA labels / Labels ARIA personalizables |
 | `onCountryChange` | function | `null` | Callback when country changes / Callback cuando cambia el país |
@@ -895,6 +937,7 @@ This will open `http://localhost:3004` with all available demos / Esto abrirá `
 - `demo-react.html` - React example / Ejemplo con React
 - `demo-cdn-importmap.html` - CDN with Import Maps / CDN con Import Maps
 - `demo-cdn-script.html` - CDN with Script Tag / CDN con Script Tag
+- `demo-widths.html` - Width control examples / Ejemplos de control de anchos
 
 ---
 

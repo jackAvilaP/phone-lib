@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test - Control de Anchos</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 2px solid #4a90e2;
+    }
+
+    .test-label {
+      font-weight: bold;
+      color: #4a90e2;
+      margin-bottom: 10px;
+    }
+
+    .status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🧪 Test - Control de Anchos PhoneLib</h1>
+
+  <div class="test-section">
+    <div class="test-label">Test 1: Layout Integrado - width y maxWidth</div>
+    <div id="test-1"></div>
+    <div id="status-1" class="status"></div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">Test 2: Layout Integrado - dropdownWidth e inputWidth</div>
+    <div id="test-2"></div>
+    <div id="status-2" class="status"></div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">Test 3: Layout Separado - gridColumns</div>
+    <div id="test-3"></div>
+    <div id="status-3" class="status"></div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">Test 4: Layout Separado - countryWidth, dialCodeWidth, phoneWidth</div>
+    <div id="test-4"></div>
+    <div id="status-4" class="status"></div>
+  </div>
+
+  <div class="test-section">
+    <div class="test-label">Test 5: Responsive con porcentajes</div>
+    <div id="test-5"></div>
+    <div id="status-5" class="status"></div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    import PhoneLib from './phone-lib.js';
+
+    function checkStyles(element, expectedStyles, testId) {
+      const statusEl = document.getElementById(`status-${testId}`);
+      const computed = window.getComputedStyle(element);
+      let allPassed = true;
+      let results = [];
+
+      for (const [prop, expected] of Object.entries(expectedStyles)) {
+        const actual = computed[prop];
+        const passed = actual === expected || actual.includes(expected);
+        results.push({
+          prop,
+          expected,
+          actual,
+          passed
+        });
+        if (!passed) allPassed = false;
+      }
+
+      if (allPassed) {
+        statusEl.className = 'status success';
+        statusEl.textContent = '✅ PASS - Todos los estilos aplicados correctamente';
+      } else {
+        statusEl.className = 'status error';
+        statusEl.innerHTML = '❌ FAIL - Algunos estilos no coinciden:<br>' +
+          results.map(r =>
+            `${r.prop}: esperado "${r.expected}", obtenido "${r.actual}" ${r.passed ? '✅' : '❌'}`
+          ).join('<br>');
+      }
+    }
+
+    // Test 1: width y maxWidth
+    setTimeout(() => {
+      const phoneLib1 = new PhoneLib('#test-1', {
+        initialCountry: 'CO',
+        layout: 'integrated',
+        width: '500px',
+        maxWidth: '600px'
+      });
+
+      setTimeout(() => {
+        const wrapper = document.querySelector('#test-1 .phone-lib-wrapper');
+        if (wrapper) {
+          checkStyles(wrapper, {
+            width: '500px',
+            maxWidth: '600px'
+          }, 1);
+        }
+      }, 100);
+    }, 100);
+
+    // Test 2: dropdownWidth e inputWidth
+    setTimeout(() => {
+      const phoneLib2 = new PhoneLib('#test-2', {
+        initialCountry: 'CO',
+        layout: 'integrated',
+        dropdownWidth: '180px',
+        inputWidth: '320px'
+      });
+
+      setTimeout(() => {
+        const dropdown = document.querySelector('#test-2 .phone-lib-dropdown-button');
+        const input = document.querySelector('#test-2 .phone-lib-input');
+        const statusEl = document.getElementById('status-2');
+
+        if (dropdown && input) {
+          const dropdownStyle = window.getComputedStyle(dropdown);
+          const inputStyle = window.getComputedStyle(input);
+
+          const dropdownPass = dropdownStyle.minWidth === '180px' || dropdownStyle.width === '180px';
+          const inputPass = inputStyle.width === '320px';
+
+          if (dropdownPass && inputPass) {
+            statusEl.className = 'status success';
+            statusEl.textContent = '✅ PASS - Anchos aplicados correctamente';
+          } else {
+            statusEl.className = 'status error';
+            statusEl.textContent = `❌ FAIL - Dropdown: ${dropdownStyle.width || dropdownStyle.minWidth}, Input: ${inputStyle.width}`;
+          }
+        }
+      }, 100);
+    }, 200);
+
+    // Test 3: gridColumns
+    setTimeout(() => {
+      const phoneLib3 = new PhoneLib('#test-3', {
+        initialCountry: 'CO',
+        layout: 'separated',
+        showDialCode: true,
+        gridColumns: '3fr 1fr 4fr'
+      });
+
+      setTimeout(() => {
+        const row = document.querySelector('#test-3 .phone-lib-separated-row');
+        if (row) {
+          const computed = window.getComputedStyle(row);
+          const gridTemplate = computed.gridTemplateColumns;
+          const statusEl = document.getElementById('status-3');
+
+          if (gridTemplate.includes('3fr') && gridTemplate.includes('1fr') && gridTemplate.includes('4fr')) {
+            statusEl.className = 'status success';
+            statusEl.textContent = `✅ PASS - Grid columns: ${gridTemplate}`;
+          } else {
+            statusEl.className = 'status error';
+            statusEl.textContent = `❌ FAIL - Grid columns: ${gridTemplate}`;
+          }
+        }
+      }, 100);
+    }, 300);
+
+    // Test 4: countryWidth, dialCodeWidth, phoneWidth
+    setTimeout(() => {
+      const phoneLib4 = new PhoneLib('#test-4', {
+        initialCountry: 'CO',
+        layout: 'separated',
+        showDialCode: true,
+        countryWidth: '200px',
+        dialCodeWidth: '80px',
+        phoneWidth: '300px'
+      });
+
+      setTimeout(() => {
+        const countryBtn = document.querySelector('#test-4 .phone-lib-dropdown-button-separated');
+        const dialCode = document.querySelector('#test-4 .phone-lib-dial-code-input');
+        const phone = document.querySelector('#test-4 .phone-lib-input-separated');
+        const statusEl = document.getElementById('status-4');
+
+        if (countryBtn && dialCode && phone) {
+          const countryStyle = window.getComputedStyle(countryBtn);
+          const dialCodeStyle = window.getComputedStyle(dialCode);
+          const phoneStyle = window.getComputedStyle(phone);
+
+          const allPass =
+            (countryStyle.width === '200px') &&
+            (dialCodeStyle.width === '80px') &&
+            (phoneStyle.width === '300px');
+
+          if (allPass) {
+            statusEl.className = 'status success';
+            statusEl.textContent = '✅ PASS - Todos los anchos aplicados correctamente';
+          } else {
+            statusEl.className = 'status error';
+            statusEl.textContent = `❌ FAIL - Country: ${countryStyle.width}, DialCode: ${dialCodeStyle.width}, Phone: ${phoneStyle.width}`;
+          }
+        }
+      }, 100);
+    }, 400);
+
+    // Test 5: Responsive con porcentajes
+    setTimeout(() => {
+      const phoneLib5 = new PhoneLib('#test-5', {
+        initialCountry: 'CO',
+        layout: 'integrated',
+        width: '100%',
+        maxWidth: '500px',
+        dropdownWidth: '25%',
+        inputWidth: '75%'
+      });
+
+      setTimeout(() => {
+        const wrapper = document.querySelector('#test-5 .phone-lib-wrapper');
+        const dropdown = document.querySelector('#test-5 .phone-lib-dropdown-button');
+        const input = document.querySelector('#test-5 .phone-lib-input');
+        const statusEl = document.getElementById('status-5');
+
+        if (wrapper && dropdown && input) {
+          const wrapperStyle = window.getComputedStyle(wrapper);
+          const dropdownStyle = window.getComputedStyle(dropdown);
+          const inputStyle = window.getComputedStyle(input);
+
+          const wrapperPass = wrapperStyle.width === '100%' || wrapperStyle.maxWidth === '500px';
+          const dropdownPass = dropdownStyle.width === '25%' || dropdownStyle.minWidth.includes('25%');
+          const inputPass = inputStyle.width === '75%';
+
+          if (wrapperPass && dropdownPass && inputPass) {
+            statusEl.className = 'status success';
+            statusEl.textContent = '✅ PASS - Porcentajes aplicados correctamente';
+          } else {
+            statusEl.className = 'status error';
+            statusEl.textContent = `❌ FAIL - Wrapper: ${wrapperStyle.width}, Dropdown: ${dropdownStyle.width}, Input: ${inputStyle.width}`;
+          }
+        }
+      }, 100);
+    }, 500);
+
+    // Resumen final
+    setTimeout(() => {
+      const allStatus = document.querySelectorAll('.status');
+      const passed = Array.from(allStatus).filter(s => s.classList.contains('success')).length;
+      const total = allStatus.length;
+
+      const summary = document.createElement('div');
+      summary.style.cssText = 'margin-top: 30px; padding: 20px; background: #e8f4f8; border-radius: 8px; font-size: 18px; font-weight: bold;';
+      summary.textContent = `📊 Resumen: ${passed}/${total} tests pasaron`;
+
+      if (passed === total) {
+        summary.style.background = '#d4edda';
+        summary.style.color = '#155724';
+        summary.textContent = `✅ ¡Perfecto! Todos los tests pasaron (${passed}/${total})`;
+      } else {
+        summary.style.background = '#fff3cd';
+        summary.style.color = '#856404';
+      }
+
+      document.body.appendChild(summary);
+    }, 1500);
+  </script>
+</body>
+
+</html>

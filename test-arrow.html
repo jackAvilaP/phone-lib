@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Test - Flecha del Selector</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f5f5f5;
+    }
+
+    .test-container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .info {
+      background: #e8f4f8;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+      border-left: 4px solid #4a90e2;
+    }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🔽 Test - Flecha del Selector</h1>
+
+  <div class="info">
+    <strong>Instrucciones:</strong>
+    <ol>
+      <li>La flecha debe verse como un chevron simple apuntando hacia abajo</li>
+      <li>Al hacer clic, debe rotar 180° (apuntar hacia arriba)</li>
+      <li>Si no ves el cambio, presiona <code>Ctrl + F5</code> para limpiar la caché</li>
+    </ol>
+  </div>
+
+  <div class="test-container">
+    <h2>Layout Integrado</h2>
+    <div id="test-integrated"></div>
+  </div>
+
+  <div class="test-container">
+    <h2>Layout Separado</h2>
+    <div id="test-separated"></div>
+  </div>
+
+  <div class="test-container">
+    <h2>Inspección CSS</h2>
+    <p>Abre las herramientas de desarrollador (F12) y verifica:</p>
+    <ul>
+      <li>La clase <code>.phone-lib-arrow</code> debe tener estilos de border (triángulo CSS)</li>
+      <li>No debe tener contenido de texto (el símbolo ▼ fue removido)</li>
+      <li>Al hacer clic, debe tener <code>transform: rotate(180deg)</code></li>
+    </ul>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+  <script type="module">
+    import PhoneLib from './phone-lib.js';
+
+    // Test layout integrado
+    const phoneLib1 = new PhoneLib('#test-integrated', {
+      initialCountry: 'CO',
+      layout: 'integrated',
+      showDialCode: true
+    });
+
+    // Test layout separado
+    const phoneLib2 = new PhoneLib('#test-separated', {
+      initialCountry: 'CO',
+      layout: 'separated',
+      showDialCode: true
+    });
+
+    // Verificar que la flecha existe y tiene el estilo correcto
+    setTimeout(() => {
+      const arrows = document.querySelectorAll('.phone-lib-arrow');
+      console.log('Flechas encontradas:', arrows.length);
+
+      arrows.forEach((arrow, index) => {
+        const styles = window.getComputedStyle(arrow);
+        console.log(`Flecha ${index + 1}:`, {
+          width: styles.width,
+          height: styles.height,
+          borderTop: styles.borderTop,
+          borderLeft: styles.borderLeft,
+          borderRight: styles.borderRight,
+          content: arrow.textContent || '(vacío - correcto)'
+        });
+      });
+    }, 500);
+  </script>
+</body>
+
+</html>

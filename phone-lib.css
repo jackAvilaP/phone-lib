@@ -30,6 +30,7 @@
   font-size: 16px;
   min-width: 120px;
   height: 100%;
+  overflow: visible;
 }
 
 .phone-lib-dropdown-button:hover {
@@ -66,10 +67,27 @@
 }
 
 .phone-lib-arrow {
-  font-size: 10px;
-  color: #666;
+  width: 14px;
+  height: 14px;
   margin-left: auto;
   transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #666;
+}
+
+.phone-lib-arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.phone-lib-arrow svg path,
+.phone-lib-arrow svg line {
+  stroke: currentColor;
+  fill: none;
 }
 
 .phone-lib-dropdown-button.active .phone-lib-arrow {
@@ -105,6 +123,8 @@
   cursor: pointer;
   transition: background-color 0.15s ease;
   border-bottom: 1px solid #f0f0f0;
+  min-width: 0;
+  overflow: visible;
 }
 
 .phone-lib-country-item:last-child {
@@ -140,6 +160,9 @@
 .phone-lib-country-name {
   flex: 1;
   color: #333;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .phone-lib-country-dial-code {
@@ -271,6 +294,8 @@
   font-size: 16px;
   width: 100%;
   text-align: left;
+  min-width: 0;
+  overflow: visible;
 }
 
 .phone-lib-dropdown-button-separated:hover {
@@ -287,6 +312,10 @@
   flex: 1;
   color: #333;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  min-width: 0;
 }
 
 .phone-lib-dial-code-input {
