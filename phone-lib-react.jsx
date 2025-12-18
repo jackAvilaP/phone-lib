@@ -28,6 +28,7 @@ const PhoneLibReact = forwardRef((props, ref) => {
     containerId,
     containerClassName,
     initialCountry = 'US',
+    initialPhoneNumber = null,
     preferredCountries = [],
     showHint = true,
     layout = 'integrated',
@@ -67,6 +68,7 @@ const PhoneLibReact = forwardRef((props, ref) => {
     // Inicializar PhoneLib
     phoneLibRef.current = new PhoneLib(containerRef.current, {
       initialCountry,
+      initialPhoneNumber,
       preferredCountries,
       showHint,
       layout,
@@ -93,6 +95,11 @@ const PhoneLibReact = forwardRef((props, ref) => {
       onBlur
     });
 
+    // Si hay un número inicial, establecerlo después de la inicialización
+    if (initialPhoneNumber) {
+      phoneLibRef.current.setPhoneNumber(initialPhoneNumber);
+    }
+
     // Cleanup al desmontar
     return () => {
       if (phoneLibRef.current) {
@@ -108,6 +115,7 @@ const PhoneLibReact = forwardRef((props, ref) => {
 
     phoneLibRef.current.updateOptions({
       initialCountry,
+      initialPhoneNumber,
       preferredCountries,
       showHint,
       layout,
@@ -130,6 +138,7 @@ const PhoneLibReact = forwardRef((props, ref) => {
     });
   }, [
     initialCountry,
+    initialPhoneNumber,
     preferredCountries,
     showHint,
     layout,

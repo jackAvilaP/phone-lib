@@ -13,6 +13,7 @@ Librería JavaScript moderna para integrar fácilmente un input de teléfono con
 
 - ✅ **Country dropdown** / **Dropdown de países** showing name, ISO2 code, dial code, and flag
 - ✅ **Tel input** / **Input tipo tel** with automatic formatting based on selected country
+- ✅ **Numbers only input** / **Input solo números** - automatically filters non-numeric characters
 - ✅ **Phone number validation** / **Validación de números** using `libphonenumber-js`
 - ✅ **Complete public API** / **API pública completa** with methods to get number information
 - ✅ **Vanilla JavaScript and React support** / **Soporte para Vanilla JavaScript y React**
@@ -61,7 +62,7 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.css">
 </head>
 <body>
   <div id="phone-container"></div>
@@ -69,7 +70,7 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
   <script type="importmap">
     {
       "imports": {
-        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.js",
+        "@jacksonavila/phone-lib": "https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.js",
         "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
       }
     }
@@ -89,8 +90,8 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 ```
 
 **CDN URLs / URLs de CDN:**
-- **jsDelivr:** `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/`
-- **unpkg:** `https://unpkg.com/@jacksonavila/phone-lib@2.0.5/`
+- **jsDelivr:** `https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/`
+- **unpkg:** `https://unpkg.com/@jacksonavila/phone-lib@2.0.10/`
 
 ### Method 2: Script Tag (All Browsers) / Método 2: Script Tag (Todos los Navegadores)
 
@@ -98,12 +99,12 @@ You can use PhoneLib directly from CDN without npm / Puedes usar PhoneLib direct
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.css">
 </head>
 <body>
   <div id="phone-container"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.cdn.js"></script>
   
   <script>
     let phoneLib = null;
@@ -196,6 +197,7 @@ import '@jacksonavila/phone-lib/css';
 
 const phoneLib = new PhoneLib('#phone-container', {
   initialCountry: 'CO',
+  initialPhoneNumber: '+573001234567', // Optional: set initial phone number / Opcional: establecer número inicial
   preferredCountries: ['CO', 'US', 'ES'],
   showHint: true,
   layout: 'integrated',
@@ -453,6 +455,54 @@ function ContactForm() {
 }
 ```
 
+#### With Initial Phone Number (React Forms) / Con Número Inicial (Formularios React)
+
+**Important / Importante:** Use `initialPhoneNumber` to set an initial value and ensure the phone number persists when the parent component re-renders / Usa `initialPhoneNumber` para establecer un valor inicial y asegurar que el número persista cuando el componente padre se re-renderiza:
+
+```jsx
+import React, { useState } from 'react';
+import PhoneLibReact from '@jacksonavila/phone-lib/react';
+import '@jacksonavila/phone-lib/css';
+
+function EditContactForm({ contact }) {
+  const [name, setName] = useState(contact?.name || '');
+  const [email, setEmail] = useState(contact?.email || '');
+
+  return (
+    <form>
+      <input 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+        placeholder="Name / Nombre" 
+      />
+      <input 
+        value={email} 
+        onChange={(e) => setEmail(e.target.value)} 
+        placeholder="Email" 
+      />
+      
+      {/* The phone number value persists even when name/email change / 
+          El valor del teléfono persiste incluso cuando cambian name/email */}
+      <PhoneLibReact
+        initialCountry={contact?.country || 'US'}
+        initialPhoneNumber={contact?.phone || null}
+        onPhoneChange={(phone, isValid) => {
+          console.log('Phone / Teléfono:', phone);
+        }}
+      />
+      
+      <button type="submit">Save / Guardar</button>
+    </form>
+  );
+}
+```
+
+**💡 Why `initialPhoneNumber` is important / Por qué `initialPhoneNumber` es importante:**
+
+- **Prevents data loss / Previene pérdida de datos:** Without `initialPhoneNumber`, the phone value can be lost when the parent component re-renders (e.g., when other form fields change) / Sin `initialPhoneNumber`, el valor del teléfono puede perderse cuando el componente padre se re-renderiza (ej: cuando otros campos del formulario cambian)
+- **Form editing / Edición de formularios:** Essential when editing existing data - the phone number is preserved during re-renders / Esencial al editar datos existentes - el número de teléfono se preserva durante re-renders
+- **Controlled components / Componentes controlados:** Works seamlessly with React's controlled component pattern / Funciona perfectamente con el patrón de componentes controlados de React
+
 ---
 
 ## 🎨 Available Layouts / Layouts Disponibles
@@ -512,6 +562,7 @@ const phoneLib = new PhoneLib('#container', {
 ```javascript
 {
   initialCountry: 'CO',              // Initial country / País inicial (ISO2)
+  initialPhoneNumber: '+573001234567', // Initial phone number (optional) / Número inicial (opcional)
   preferredCountries: ['CO', 'US'],  // Countries that appear first / Países que aparecen primero
   showHint: true,                    // Show validation hint / Mostrar hint de validación
   layout: 'integrated',              // 'integrated' or 'separated' / 'integrated' o 'separated'
@@ -519,10 +570,22 @@ const phoneLib = new PhoneLib('#container', {
 }
 ```
 
+**📝 Note about `initialPhoneNumber` / Nota sobre `initialPhoneNumber`:**
+
+- **Vanilla JS:** Use `initialPhoneNumber` in the constructor options to set an initial phone number value / Usa `initialPhoneNumber` en las opciones del constructor para establecer un valor inicial del teléfono
+- **React:** Use the `initialPhoneNumber` prop to set an initial value. This prop also ensures the phone number value persists when the parent component re-renders / Usa la prop `initialPhoneNumber` para establecer un valor inicial. Esta prop también asegura que el valor del teléfono persista cuando el componente padre se re-renderiza
+- The value is preserved during re-renders, preventing data loss in React forms / El valor se preserva durante re-renders, previniendo pérdida de datos en formularios React
+
 ### Advanced Options / Opciones Avanzadas
 
 ```javascript
 {
+  // Initial values / Valores iniciales
+  initialCountry: 'CO',                // Initial country (ISO2) / País inicial (ISO2)
+  initialPhoneNumber: '+573001234567', // Initial phone number (optional) / Número inicial (opcional)
+                                      // In React: ensures value persists during re-renders / 
+                                      // En React: asegura que el valor persista durante re-renders
+  
   // Detection and validation / Detección y validación
   autoDetectCountry: true,            // Auto-detect country / Detectar país automáticamente
   validateOnInput: false,             // Validate while typing / Validar mientras se escribe
@@ -878,6 +941,7 @@ const phoneLib = new PhoneLib('#container', {
 | Prop | Type | Default | Description / Descripción |
 |------|------|---------|--------------------------|
 | `initialCountry` | string | `'US'` | Initial country (ISO2) / País inicial (ISO2) |
+| `initialPhoneNumber` | string \| null | `null` | Initial phone number value. **Important:** This prop ensures the phone value persists during parent component re-renders in React / Valor inicial del teléfono. **Importante:** Esta prop asegura que el valor del teléfono persista durante re-renders del componente padre en React |
 | `preferredCountries` | array | `[]` | Preferred countries / Países preferidos |
 | `showHint` | boolean | `true` | Show validation hint / Mostrar hint de validación |
 | `layout` | string | `'integrated'` | `'integrated'` or `'separated'` / `'integrated'` o `'separated'` |

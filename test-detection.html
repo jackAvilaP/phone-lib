@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test - Detección de Teléfono - PhoneLib</title>
+  <link rel="stylesheet" href="phone-lib.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-section h2 {
+      margin-top: 0;
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+    }
+
+    .test-case {
+      margin: 15px 0;
+      padding: 15px;
+      background: #f9f9f9;
+      border-left: 4px solid #2196F3;
+      border-radius: 4px;
+    }
+
+    .test-case h3 {
+      margin-top: 0;
+      color: #2196F3;
+    }
+
+    .test-result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .test-result.pass {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .test-result.fail {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .test-result.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+
+    .phone-container {
+      margin: 10px 0;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    button.secondary {
+      background: #2196F3;
+    }
+
+    button.secondary:hover {
+      background: #0b7dda;
+    }
+
+    .log {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .log-entry {
+      margin: 5px 0;
+      padding: 5px;
+      border-left: 3px solid #ccc;
+      padding-left: 10px;
+    }
+
+    .log-entry.success {
+      border-left-color: #4CAF50;
+    }
+
+    .log-entry.error {
+      border-left-color: #f44336;
+    }
+
+    .log-entry.info {
+      border-left-color: #2196F3;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .status.pass {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .status.fail {
+      background: #f44336;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🧪 Test de Detección de Teléfono - PhoneLib</h1>
+
+  <!-- Test 1: Detección Automática de País -->
+  <div class="test-section">
+    <h2>Test 1: Detección Automática de País (autoDetectCountry)</h2>
+    <div class="test-case">
+      <h3>Escenario: Escribir número con código de país (+57, +1, +52)</h3>
+      <div class="phone-container" id="test1-container"></div>
+      <div>
+        <button onclick="test1_run()">Ejecutar Test</button>
+        <button class="secondary" onclick="test1_clear()">Limpiar</button>
+      </div>
+      <div id="test1-result"></div>
+      <div id="test1-log" class="log"></div>
+    </div>
+  </div>
+
+  <!-- Test 2: Formateo en Tiempo Real -->
+  <div class="test-section">
+    <h2>Test 2: Formateo en Tiempo Real</h2>
+    <div class="test-case">
+      <h3>Escenario: Verificar que el número se formatea mientras se escribe</h3>
+      <div class="phone-container" id="test2-container"></div>
+      <div>
+        <button onclick="test2_run()">Ejecutar Test</button>
+        <button class="secondary" onclick="test2_clear()">Limpiar</button>
+      </div>
+      <div id="test2-result"></div>
+      <div id="test2-log" class="log"></div>
+    </div>
+  </div>
+
+  <!-- Test 3: Validación -->
+  <div class="test-section">
+    <h2>Test 3: Validación de Números</h2>
+    <div class="test-case">
+      <h3>Escenario: Validar números válidos e inválidos</h3>
+      <div class="phone-container" id="test3-container"></div>
+      <div>
+        <button onclick="test3_run()">Ejecutar Test</button>
+        <button class="secondary" onclick="test3_clear()">Limpiar</button>
+      </div>
+      <div id="test3-result"></div>
+      <div id="test3-log" class="log"></div>
+    </div>
+  </div>
+
+  <!-- Test 4: Escritura Normal -->
+  <div class="test-section">
+    <h2>Test 4: Escritura Normal (Sin Detección Automática)</h2>
+    <div class="test-case">
+      <h3>Escenario: Verificar que se puede escribir normalmente</h3>
+      <div class="phone-container" id="test4-container"></div>
+      <div>
+        <button onclick="test4_run()">Ejecutar Test</button>
+        <button class="secondary" onclick="test4_clear()">Limpiar</button>
+      </div>
+      <div id="test4-result"></div>
+      <div id="test4-log" class="log"></div>
+    </div>
+  </div>
+
+  <!-- Test 5: Detección con Diferentes Países -->
+  <div class="test-section">
+    <h2>Test 5: Detección con Diferentes Países</h2>
+    <div class="test-case">
+      <h3>Escenario: Probar detección con Colombia, USA, México</h3>
+      <div class="phone-container" id="test5-container"></div>
+      <div>
+        <button onclick="test5_run()">Ejecutar Test</button>
+        <button class="secondary" onclick="test5_clear()">Limpiar</button>
+      </div>
+      <div id="test5-result"></div>
+      <div id="test5-log" class="log"></div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import PhoneLib from './phone-lib.js';
+
+    // Verificar que PhoneLib se cargó correctamente
+    console.log('PhoneLib cargado:', PhoneLib);
+
+    let test1Lib, test2Lib, test3Lib, test4Lib, test5Lib;
+
+    // Test 1: Detección Automática
+    window.test1_run = function () {
+      console.log('test1_run llamado');
+      const log = document.getElementById('test1-log');
+      const result = document.getElementById('test1-result');
+
+      if (!log || !result) {
+        console.error('No se encontraron elementos del DOM');
+        alert('Error: No se encontraron elementos del DOM. Verifica la consola.');
+        return;
+      }
+
+      log.innerHTML = '';
+      result.innerHTML = '';
+
+      if (test1Lib) {
+        test1Lib.destroy();
+        test1Lib = null;
+      }
+
+      console.log('Inicializando PhoneLib...');
+
+      try {
+        test1Lib = new PhoneLib('#test1-container', {
+          initialCountry: 'US',
+          autoDetectCountry: true,
+          validateOnInput: true,
+          onCountryChange: (country, dialCode, countryName) => {
+            addLog(log, 'info', `País detectado: ${countryName} (${country}) - Código: +${dialCode}`);
+          },
+          onPhoneChange: (phone, isValid, country) => {
+            addLog(log, isValid ? 'success' : 'error',
+              `Número: ${phone || '(vacío)'} | Válido: ${isValid} | País: ${country}`);
+          }
+        });
+
+        addLog(log, 'info', '✅ PhoneLib inicializado con autoDetectCountry: true');
+        addLog(log, 'info', '📝 Instrucciones: Escribe un número con código de país (ej: +573001234567)');
+
+        result.innerHTML = '<div class="test-result info">Test iniciado. Escribe un número con código de país para probar la detección.</div>';
+      } catch (error) {
+        console.error('Error al inicializar PhoneLib:', error);
+        addLog(log, 'error', `❌ Error: ${error.message}`);
+        result.innerHTML = `<div class="test-result fail">Error al inicializar: ${error.message}</div>`;
+      }
+    };
+
+    window.test1_clear = function () {
+      if (test1Lib) {
+        test1Lib.destroy();
+        test1Lib = null;
+      }
+      document.getElementById('test1-log').innerHTML = '';
+      document.getElementById('test1-result').innerHTML = '';
+      document.getElementById('test1-container').innerHTML = '';
+    };
+
+    // Test 2: Formateo
+    window.test2_run = function () {
+      const log = document.getElementById('test2-log');
+      const result = document.getElementById('test2-result');
+      log.innerHTML = '';
+      result.innerHTML = '';
+
+      if (test2Lib) {
+        test2Lib.destroy();
+      }
+
+      test2Lib = new PhoneLib('#test2-container', {
+        initialCountry: 'CO',
+        validateOnInput: true,
+        onPhoneChange: (phone, isValid) => {
+          const formatted = test2Lib.formatInternational();
+          const raw = test2Lib.getRaw();
+          addLog(log, 'info',
+            `Raw: ${raw || '(vacío)'} | Formateado: ${formatted || '(vacío)'} | Válido: ${isValid}`);
+        }
+      });
+
+      addLog(log, 'info', '✅ PhoneLib inicializado para formateo');
+      addLog(log, 'info', '📝 Instrucciones: Escribe un número y observa cómo se formatea');
+
+      result.innerHTML = '<div class="test-result info">Test iniciado. Escribe un número para ver el formateo en tiempo real.</div>';
+    };
+
+    window.test2_clear = function () {
+      if (test2Lib) {
+        test2Lib.destroy();
+        test2Lib = null;
+      }
+      document.getElementById('test2-log').innerHTML = '';
+      document.getElementById('test2-result').innerHTML = '';
+      document.getElementById('test2-container').innerHTML = '';
+    };
+
+    // Test 3: Validación
+    window.test3_run = function () {
+      const log = document.getElementById('test3-log');
+      const result = document.getElementById('test3-result');
+      log.innerHTML = '';
+      result.innerHTML = '';
+
+      if (test3Lib) {
+        test3Lib.destroy();
+      }
+
+      test3Lib = new PhoneLib('#test3-container', {
+        initialCountry: 'CO',
+        validateOnInput: true,
+        onValidationChange: (isValid) => {
+          addLog(log, isValid ? 'success' : 'error',
+            `Validación cambiada: ${isValid ? 'VÁLIDO' : 'INVÁLIDO'}`);
+        },
+        onPhoneChange: (phone, isValid) => {
+          addLog(log, 'info', `Número: ${phone || '(vacío)'} | Válido: ${isValid}`);
+        }
+      });
+
+      addLog(log, 'info', '✅ PhoneLib inicializado para validación');
+      addLog(log, 'info', '📝 Instrucciones: Escribe números válidos e inválidos');
+
+      // Probar números automáticamente después de 1 segundo
+      setTimeout(() => {
+        const testNumbers = [
+          { number: '3001234567', country: 'CO', expected: true, desc: 'Colombia válido' },
+          { number: '123', country: 'CO', expected: false, desc: 'Colombia inválido (muy corto)' },
+          { number: '1234567890', country: 'US', expected: true, desc: 'USA válido' },
+        ];
+
+        testNumbers.forEach((test, index) => {
+          setTimeout(() => {
+            test3Lib.setCountry(test.country);
+            test3Lib.setPhoneNumber(test.number);
+            const isValid = test3Lib.isValid();
+            const passed = isValid === test.expected;
+            addLog(log, passed ? 'success' : 'error',
+              `Test ${index + 1}: ${test.desc} - Esperado: ${test.expected}, Obtenido: ${isValid} ${passed ? '✅' : '❌'}`);
+          }, (index + 1) * 1000);
+        });
+      }, 1000);
+
+      result.innerHTML = '<div class="test-result info">Test iniciado. Se probarán números automáticamente.</div>';
+    };
+
+    window.test3_clear = function () {
+      if (test3Lib) {
+        test3Lib.destroy();
+        test3Lib = null;
+      }
+      document.getElementById('test3-log').innerHTML = '';
+      document.getElementById('test3-result').innerHTML = '';
+      document.getElementById('test3-container').innerHTML = '';
+    };
+
+    // Test 4: Escritura Normal
+    window.test4_run = function () {
+      const log = document.getElementById('test4-log');
+      const result = document.getElementById('test4-result');
+      log.innerHTML = '';
+      result.innerHTML = '';
+
+      if (test4Lib) {
+        test4Lib.destroy();
+      }
+
+      test4Lib = new PhoneLib('#test4-container', {
+        initialCountry: 'CO',
+        autoDetectCountry: false, // Sin detección automática
+        validateOnInput: false,
+        onPhoneChange: (phone, isValid) => {
+          addLog(log, 'info', `Número escrito: ${phone || '(vacío)'} | Válido: ${isValid}`);
+        }
+      });
+
+      addLog(log, 'info', '✅ PhoneLib inicializado SIN autoDetectCountry');
+      addLog(log, 'info', '📝 Instrucciones: Escribe normalmente y verifica que no se pierde el cursor');
+
+      result.innerHTML = '<div class="test-result info">Test iniciado. Escribe normalmente para verificar que funciona.</div>';
+    };
+
+    window.test4_clear = function () {
+      if (test4Lib) {
+        test4Lib.destroy();
+        test4Lib = null;
+      }
+      document.getElementById('test4-log').innerHTML = '';
+      document.getElementById('test4-result').innerHTML = '';
+      document.getElementById('test4-container').innerHTML = '';
+    };
+
+    // Test 5: Detección con Diferentes Países
+    window.test5_run = function () {
+      const log = document.getElementById('test5-log');
+      const result = document.getElementById('test5-result');
+      log.innerHTML = '';
+      result.innerHTML = '';
+
+      if (test5Lib) {
+        test5Lib.destroy();
+      }
+
+      test5Lib = new PhoneLib('#test5-container', {
+        initialCountry: 'US',
+        autoDetectCountry: true,
+        validateOnInput: true,
+        onCountryChange: (country, dialCode, countryName) => {
+          addLog(log, 'success', `✅ País detectado: ${countryName} (${country}) - Código: +${dialCode}`);
+        },
+        onPhoneChange: (phone, isValid, country) => {
+          addLog(log, 'info', `Número: ${phone || '(vacío)'} | País: ${country} | Válido: ${isValid}`);
+        }
+      });
+
+      addLog(log, 'info', '✅ PhoneLib inicializado con autoDetectCountry: true');
+      addLog(log, 'info', '📝 Instrucciones: Prueba estos números:');
+      addLog(log, 'info', '   - +573001234567 (Colombia)');
+      addLog(log, 'info', '   - +12125551234 (USA)');
+      addLog(log, 'info', '   - +525512345678 (México)');
+
+      // Probar detección automáticamente
+      setTimeout(() => {
+        const testCases = [
+          { number: '+573001234567', expectedCountry: 'CO', desc: 'Colombia' },
+          { number: '+12125551234', expectedCountry: 'US', desc: 'USA' },
+          { number: '+525512345678', expectedCountry: 'MX', desc: 'México' },
+        ];
+
+        testCases.forEach((test, index) => {
+          setTimeout(() => {
+            test5Lib.setPhoneNumber(test.number);
+            const detectedCountry = test5Lib.getCountry();
+            const passed = detectedCountry === test.expectedCountry;
+            addLog(log, passed ? 'success' : 'error',
+              `Test ${index + 1}: ${test.desc} - Esperado: ${test.expectedCountry}, Obtenido: ${detectedCountry} ${passed ? '✅' : '❌'}`);
+          }, (index + 1) * 2000);
+        });
+      }, 1000);
+
+      result.innerHTML = '<div class="test-result info">Test iniciado. Se probarán diferentes países automáticamente.</div>';
+    };
+
+    window.test5_clear = function () {
+      if (test5Lib) {
+        test5Lib.destroy();
+        test5Lib = null;
+      }
+      document.getElementById('test5-log').innerHTML = '';
+      document.getElementById('test5-result').innerHTML = '';
+      document.getElementById('test5-container').innerHTML = '';
+    };
+
+    // Función auxiliar para agregar logs
+    function addLog(container, type, message) {
+      if (!container) {
+        console.error('Container no encontrado para log');
+        return;
+      }
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      const timestamp = new Date().toLocaleTimeString();
+      entry.textContent = `[${timestamp}] ${message}`;
+      container.appendChild(entry);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Verificar que todo se cargó correctamente
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM cargado, PhoneLib disponible:', typeof PhoneLib !== 'undefined');
+      console.log('Funciones de test disponibles:', {
+        test1_run: typeof window.test1_run,
+        test2_run: typeof window.test2_run,
+        test3_run: typeof window.test3_run,
+        test4_run: typeof window.test4_run,
+        test5_run: typeof window.test5_run
+      });
+    });
+  </script>
+</body>
+
+</html>

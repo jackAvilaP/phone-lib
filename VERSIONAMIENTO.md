@@ -2,17 +2,17 @@
 
 ## ✅ Estado Actual
 
-**Versión actual:** `2.0.5`
+**Versión actual:** `2.0.10`
 
 ### Archivos con Versión Hardcodeada
 
 Cuando actualices la versión, debes actualizar estos archivos:
 
 1. **`package.json`** ✅
-   - Campo: `"version": "2.0.1"`
+   - Campo: `"version": "2.0.10"`
 
 2. **`phone-lib.cdn.js`** ✅
-   - Línea 20: `const PACKAGE_VERSION = '2.0.1';`
+   - Línea 20: `const PACKAGE_VERSION = '2.0.10';`
    - Comentarios en líneas 7-8
 
 3. **`demo-cdn-importmap.html`** ✅
@@ -25,13 +25,13 @@ Cuando actualices la versión, debes actualizar estos archivos:
 
 5. **`README.md`** ✅
    - Sección "Using from CDN"
-   - Múltiples referencias a `@2.0.1`
+   - Múltiples referencias a `@2.0.10`
 
 6. **`USO-SIN-NPM.md`** ✅
-   - Múltiples ejemplos con `@2.0.1`
+   - Múltiples ejemplos con `@2.0.10`
 
 7. **`GUIA-VANILLA-JS.md`** ✅
-   - Referencias a `@2.0.1`
+   - Referencias a `@2.0.10`
 
 ## 🔄 Proceso de Actualización de Versión
 
@@ -40,19 +40,19 @@ Cuando actualices la versión, debes actualizar estos archivos:
 1. Actualizar `package.json`:
    ```json
    {
-     "version": "2.0.2"  // Nueva versión
+     "version": "2.0.10"  // Nueva versión
    }
    ```
 
 2. Actualizar `phone-lib.cdn.js`:
    ```javascript
-   const PACKAGE_VERSION = '2.0.2';
+   const PACKAGE_VERSION = '2.0.10';
    ```
 
 3. Buscar y reemplazar en todos los archivos:
    ```bash
    # Buscar todas las referencias
-   grep -r "@2.0.1" .
+   grep -r "@2.0.9" .
    
    # Reemplazar manualmente en:
    # - demo-cdn-importmap.html
@@ -66,11 +66,11 @@ Cuando actualices la versión, debes actualizar estos archivos:
 
 ```bash
 # Esto actualiza automáticamente package.json
-npm version patch  # 2.0.1 -> 2.0.2
+npm version patch  # 2.0.9 -> 2.0.10
 # o
-npm version minor  # 2.0.1 -> 2.1.0
+npm version minor  # 2.0.9 -> 2.1.0
 # o
-npm version major  # 2.0.1 -> 3.0.0
+npm version major  # 2.0.9 -> 3.0.0
 ```
 
 **Luego actualizar manualmente:**
@@ -97,7 +97,7 @@ Para verificar que todas las versiones son consistentes:
 
 ```bash
 # Buscar todas las referencias a la versión
-grep -r "2\.0\.1" . --include="*.js" --include="*.html" --include="*.md" --include="*.json"
+grep -r "2\.0\.9" . --include="*.js" --include="*.html" --include="*.md" --include="*.json"
 
 # O buscar referencias al paquete con versión
 grep -r "@jacksonavila/phone-lib@" . --include="*.js" --include="*.html" --include="*.md"
@@ -124,7 +124,43 @@ grep -r "@jacksonavila/phone-lib@" . --include="*.js" --include="*.html" --inclu
 
 ---
 
-**Última actualización:** Versión 2.0.5
+**Última actualización:** Versión 2.0.10
+
+**Cambios en 2.0.10:**
+- 🐛 **BUG FIX CRÍTICO:** Corregido problema donde `PhoneLibReact` perdía el valor del teléfono cuando el componente padre se re-renderizaba
+- ✅ Método `updateOptions()` ahora preserva el valor del teléfono y país antes de re-renderizar y lo restaura después
+- ✅ Agregada prop `initialPhoneNumber` al componente React para establecer un valor inicial del teléfono
+- ✅ Soporte para `initialPhoneNumber` en el constructor de `PhoneLib` y método `init()`
+- ✅ El valor del teléfono ahora persiste correctamente durante re-renders de React
+- ✅ Mejorada la sincronización entre el estado interno de `PhoneLib` y el componente React
+
+**Cambios en 2.0.9:**
+- ✅ **NUEVA FUNCIONALIDAD:** Input solo acepta números - validación automática para prevenir entrada de caracteres no numéricos
+- ✅ Listener `keydown` previene entrada de caracteres inválidos en tiempo real
+- ✅ Filtro en evento `input` limpia caracteres no válidos (por ejemplo, al pegar texto)
+- ✅ Método `setPhoneNumber()` filtra caracteres no numéricos cuando se establece programáticamente
+- ✅ Permite números (0-9) y símbolo `+` (solo al inicio para código internacional)
+- ✅ Permite teclas especiales (Backspace, Delete, flechas, Tab, Ctrl+A/C/V/X, etc.)
+
+**Cambios en 2.0.8:**
+- 🐛 **BUG FIX:** Corregido problema donde algunos países mostraban códigos ISO2 (TK, TL, TM, TN, TO, TT, etc.) en lugar de nombres completos
+- ✅ Completado objeto `countryNames` con todos los países del mundo (más de 240 países)
+- ✅ Ahora todos los países muestran su nombre completo en español en el selector
+
+**Cambios en 2.0.7:**
+- 🐛 **BUG FIX:** Mejorada detección automática de país - ahora detecta correctamente el país al escribir números con código internacional
+- ✅ Mejorado formateo en tiempo real - usa el país detectado para formatear correctamente
+- ✅ Eventos de cambio de país mejorados - emite `onCountryChange` cuando se detecta automáticamente un país
+- ✅ Test completo creado (`test-detection.html`) para verificar detección y formateo
+
+**Cambios en 2.0.6:**
+- 🐛 **BUG FIX:** Corregido problema donde el input no permitía escribir (cursor se perdía al formatear)
+- ✅ Mejorado `updatePhoneNumber()` para preservar posición del cursor
+- ✅ Mejor manejo de eventos y listeners (prevención de memory leaks)
+- ✅ Validación mejorada en `selectCountry()` para evitar errores con países inválidos
+- ✅ Sanitización básica de `arrowIcon` para prevenir XSS
+- ✅ Mejorada navegación por teclado (verifica items disponibles y deshabilitados)
+
 **Cambios en 2.0.5:**
 - ✅ Chevron SVG por defecto (reemplaza triángulo CSS)
 - ✅ Opción `arrowIcon` para personalizar la flecha del selector
@@ -136,4 +172,4 @@ grep -r "@jacksonavila/phone-lib@" . --include="*.js" --include="*.html" --inclu
 - ✅ Nuevo demo: demo-widths.html
 - ✅ Nuevo test: test-widths.html
 
-**Próxima versión:** 2.0.6 (patch) o 2.1.0 (minor) según cambios
+**Próxima versión:** 2.0.11 (patch) o 2.1.0 (minor) según cambios

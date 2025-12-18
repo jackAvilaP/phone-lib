@@ -4,8 +4,8 @@
  * Carga libphonenumber-js dinámicamente y expone PhoneLib globalmente
  * 
  * Uso:
- * <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css">
- * <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.cdn.js"></script>
+ * <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.css">
+ * <script src="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.10/phone-lib.cdn.js"></script>
  * <script>
  *   document.addEventListener('phoneLibReady', () => {
  *     const phoneLib = new PhoneLib('#container', {...});
@@ -17,7 +17,7 @@
   'use strict';
 
   // Versión del paquete (actualizar cuando se publique nueva versión)
-  const PACKAGE_VERSION = '2.0.5';
+  const PACKAGE_VERSION = '2.0.10';
   const PACKAGE_NAME = '@jacksonavila/phone-lib';
 
   // URLs de CDN

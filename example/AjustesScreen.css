@@ -1,0 +1,39 @@
+.panelAjustes {
+  padding: 20px;
+}
+
+.phone-lib-container > div {
+  display: flex !important;
+  gap: 10px !important;
+}
+
+.phone-lib-container [class*="country"],
+.phone-lib-container button:first-child,
+.phone-lib-container > div > div:first-child,
+.phone-lib-container > div > div:first-child > button,
+.phone-lib-container [class*="country-select"] {
+  flex: 0 0 auto !important;
+  min-width: 200px !important;
+}
+
+.phone-lib-container [class*="phone"],
+.phone-lib-container input,
+.phone-lib-container > div > div:last-child,
+.phone-lib-container > div > div:last-child > input {
+  flex: 1 !important;
+}
+
+.phone-lib-container input,
+.phone-lib-container button {
+  border: 1px solid #637488 !important;
+  padding: 10px 15px !important;
+}
+
+ .phone-lib-container input:focus,
+.phone-lib-container button:focus{
+  color: #212529 !important;
+  background-color: #fff !important;
+  border-color: #637488 !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}

@@ -1,6 +1,6 @@
 {
   "name": "@jacksonavila/phone-lib",
-  "version": "2.0.5",
+  "version": "2.0.10",
   "description": "Librería JavaScript para input de teléfono con selector de país y banderas - Compatible con Vanilla JS y React",
   "main": "phone-lib.js",
   "module": "phone-lib.js",

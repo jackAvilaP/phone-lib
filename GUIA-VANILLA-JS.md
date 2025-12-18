@@ -16,7 +16,7 @@ Puedes usar importmap para cargar desde CDN:
 <script type="importmap">
 {
   "imports": {
-    "@jacksonavila/phone-lib": "https://esm.sh/@jacksonavila/phone-lib@2.0.5",
+    "@jacksonavila/phone-lib": "https://esm.sh/@jacksonavila/phone-lib@2.0.7",
     "libphonenumber-js": "https://esm.sh/libphonenumber-js@1.11.0"
   }
 }
@@ -40,7 +40,7 @@ Puedes usar importmap para cargar desde CDN:
   <!-- Importar CSS -->
   <link rel="stylesheet" href="node_modules/@jacksonavila/phone-lib/phone-lib.css">
   <!-- O desde CDN -->
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.5/phone-lib.css"> -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jacksonavila/phone-lib@2.0.7/phone-lib.css"> -->
   
   <style>
     body {
@@ -67,7 +67,7 @@ Puedes usar importmap para cargar desde CDN:
   <!-- Importar la librería -->
   <script type="module">
     import PhoneLib from '@jacksonavila/phone-lib';
-    // O desde CDN: import PhoneLib from 'https://esm.sh/@jacksonavila/phone-lib@2.0.5';
+    // O desde CDN: import PhoneLib from 'https://esm.sh/@jacksonavila/phone-lib@2.0.7';
 
     // Inicializar PhoneLib
     const phoneLib = new PhoneLib('#phone-container', {

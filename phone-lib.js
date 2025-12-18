@@ -76,7 +76,7 @@ class PhoneLib {
 
     // Estado interno
     this.selectedCountry = this.options.initialCountry;
-    this.phoneNumber = '';
+    this.phoneNumber = options.initialPhoneNumber || '';
     this.isValid = false;
     this.isDisabled = this.options.disabled;
     this.isReadonly = this.options.readonly;
@@ -254,68 +254,256 @@ class PhoneLib {
    */
   getCountryName(iso2) {
     const countryNames = {
-      'US': 'Estados Unidos',
-      'CO': 'Colombia',
-      'ES': 'España',
-      'MX': 'México',
-      'AR': 'Argentina',
-      'CL': 'Chile',
-      'PE': 'Perú',
-      'VE': 'Venezuela',
-      'EC': 'Ecuador',
-      'BO': 'Bolivia',
-      'PY': 'Paraguay',
-      'UY': 'Uruguay',
-      'CR': 'Costa Rica',
-      'PA': 'Panamá',
-      'GT': 'Guatemala',
-      'HN': 'Honduras',
-      'NI': 'Nicaragua',
-      'SV': 'El Salvador',
-      'DO': 'República Dominicana',
-      'CU': 'Cuba',
-      'PR': 'Puerto Rico',
-      'BR': 'Brasil',
-      'CA': 'Canadá',
-      'GB': 'Reino Unido',
-      'FR': 'Francia',
-      'DE': 'Alemania',
-      'IT': 'Italia',
-      'PT': 'Portugal',
-      'NL': 'Países Bajos',
-      'BE': 'Bélgica',
-      'CH': 'Suiza',
-      'AT': 'Austria',
-      'SE': 'Suecia',
-      'NO': 'Noruega',
-      'DK': 'Dinamarca',
-      'FI': 'Finlandia',
-      'PL': 'Polonia',
-      'CZ': 'República Checa',
-      'GR': 'Grecia',
-      'IE': 'Irlanda',
-      'NZ': 'Nueva Zelanda',
-      'AU': 'Australia',
-      'JP': 'Japón',
-      'CN': 'China',
-      'IN': 'India',
-      'KR': 'Corea del Sur',
-      'SG': 'Singapur',
-      'MY': 'Malasia',
-      'TH': 'Tailandia',
-      'PH': 'Filipinas',
-      'ID': 'Indonesia',
-      'VN': 'Vietnam',
+      'AD': 'Andorra',
       'AE': 'Emiratos Árabes Unidos',
-      'SA': 'Arabia Saudí',
-      'IL': 'Israel',
-      'TR': 'Turquía',
-      'RU': 'Rusia',
-      'ZA': 'Sudáfrica',
+      'AF': 'Afganistán',
+      'AG': 'Antigua y Barbuda',
+      'AI': 'Anguila',
+      'AL': 'Albania',
+      'AM': 'Armenia',
+      'AO': 'Angola',
+      'AQ': 'Antártida',
+      'AR': 'Argentina',
+      'AS': 'Samoa Americana',
+      'AT': 'Austria',
+      'AU': 'Australia',
+      'AW': 'Aruba',
+      'AX': 'Islas Åland',
+      'AZ': 'Azerbaiyán',
+      'BA': 'Bosnia y Herzegovina',
+      'BB': 'Barbados',
+      'BD': 'Bangladesh',
+      'BE': 'Bélgica',
+      'BF': 'Burkina Faso',
+      'BG': 'Bulgaria',
+      'BH': 'Baréin',
+      'BI': 'Burundi',
+      'BJ': 'Benín',
+      'BL': 'San Bartolomé',
+      'BM': 'Bermudas',
+      'BN': 'Brunéi',
+      'BO': 'Bolivia',
+      'BQ': 'Caribe Neerlandés',
+      'BR': 'Brasil',
+      'BS': 'Bahamas',
+      'BT': 'Bután',
+      'BV': 'Isla Bouvet',
+      'BW': 'Botsuana',
+      'BY': 'Bielorrusia',
+      'BZ': 'Belice',
+      'CA': 'Canadá',
+      'CC': 'Islas Cocos',
+      'CD': 'República Democrática del Congo',
+      'CF': 'República Centroafricana',
+      'CG': 'Congo',
+      'CH': 'Suiza',
+      'CI': 'Costa de Marfil',
+      'CK': 'Islas Cook',
+      'CL': 'Chile',
+      'CM': 'Camerún',
+      'CN': 'China',
+      'CO': 'Colombia',
+      'CR': 'Costa Rica',
+      'CU': 'Cuba',
+      'CV': 'Cabo Verde',
+      'CW': 'Curazao',
+      'CX': 'Isla de Navidad',
+      'CY': 'Chipre',
+      'CZ': 'República Checa',
+      'DE': 'Alemania',
+      'DJ': 'Yibuti',
+      'DK': 'Dinamarca',
+      'DM': 'Dominica',
+      'DO': 'República Dominicana',
+      'DZ': 'Argelia',
+      'EC': 'Ecuador',
+      'EE': 'Estonia',
       'EG': 'Egipto',
-      'NG': 'Nigeria',
+      'EH': 'Sahara Occidental',
+      'ER': 'Eritrea',
+      'ES': 'España',
+      'ET': 'Etiopía',
+      'FI': 'Finlandia',
+      'FJ': 'Fiyi',
+      'FK': 'Islas Malvinas',
+      'FM': 'Micronesia',
+      'FO': 'Islas Feroe',
+      'FR': 'Francia',
+      'GA': 'Gabón',
+      'GB': 'Reino Unido',
+      'GD': 'Granada',
+      'GE': 'Georgia',
+      'GF': 'Guayana Francesa',
+      'GG': 'Guernsey',
+      'GH': 'Ghana',
+      'GI': 'Gibraltar',
+      'GL': 'Groenlandia',
+      'GM': 'Gambia',
+      'GN': 'Guinea',
+      'GP': 'Guadalupe',
+      'GQ': 'Guinea Ecuatorial',
+      'GR': 'Grecia',
+      'GS': 'Georgia del Sur e Islas Sandwich del Sur',
+      'GT': 'Guatemala',
+      'GU': 'Guam',
+      'GW': 'Guinea-Bisáu',
+      'GY': 'Guyana',
+      'HK': 'Hong Kong',
+      'HM': 'Islas Heard y McDonald',
+      'HN': 'Honduras',
+      'HR': 'Croacia',
+      'HT': 'Haití',
+      'HU': 'Hungría',
+      'ID': 'Indonesia',
+      'IE': 'Irlanda',
+      'IL': 'Israel',
+      'IM': 'Isla de Man',
+      'IN': 'India',
+      'IO': 'Territorio Británico del Océano Índico',
+      'IQ': 'Irak',
+      'IR': 'Irán',
+      'IS': 'Islandia',
+      'IT': 'Italia',
+      'JE': 'Jersey',
+      'JM': 'Jamaica',
+      'JO': 'Jordania',
+      'JP': 'Japón',
       'KE': 'Kenia',
-      'GH': 'Ghana'
+      'KG': 'Kirguistán',
+      'KH': 'Camboya',
+      'KI': 'Kiribati',
+      'KM': 'Comoras',
+      'KN': 'San Cristóbal y Nieves',
+      'KP': 'Corea del Norte',
+      'KR': 'Corea del Sur',
+      'KW': 'Kuwait',
+      'KY': 'Islas Caimán',
+      'KZ': 'Kazajistán',
+      'LA': 'Laos',
+      'LB': 'Líbano',
+      'LC': 'Santa Lucía',
+      'LI': 'Liechtenstein',
+      'LK': 'Sri Lanka',
+      'LR': 'Liberia',
+      'LS': 'Lesoto',
+      'LT': 'Lituania',
+      'LU': 'Luxemburgo',
+      'LV': 'Letonia',
+      'LY': 'Libia',
+      'MA': 'Marruecos',
+      'MC': 'Mónaco',
+      'MD': 'Moldavia',
+      'ME': 'Montenegro',
+      'MF': 'San Martín',
+      'MG': 'Madagascar',
+      'MH': 'Islas Marshall',
+      'MK': 'Macedonia del Norte',
+      'ML': 'Malí',
+      'MM': 'Myanmar',
+      'MN': 'Mongolia',
+      'MO': 'Macao',
+      'MP': 'Islas Marianas del Norte',
+      'MQ': 'Martinica',
+      'MR': 'Mauritania',
+      'MS': 'Montserrat',
+      'MT': 'Malta',
+      'MU': 'Mauricio',
+      'MV': 'Maldivas',
+      'MW': 'Malaui',
+      'MX': 'México',
+      'MY': 'Malasia',
+      'MZ': 'Mozambique',
+      'NA': 'Namibia',
+      'NC': 'Nueva Caledonia',
+      'NE': 'Níger',
+      'NF': 'Isla Norfolk',
+      'NG': 'Nigeria',
+      'NI': 'Nicaragua',
+      'NL': 'Países Bajos',
+      'NO': 'Noruega',
+      'NP': 'Nepal',
+      'NR': 'Nauru',
+      'NU': 'Niue',
+      'NZ': 'Nueva Zelanda',
+      'OM': 'Omán',
+      'PA': 'Panamá',
+      'PE': 'Perú',
+      'PF': 'Polinesia Francesa',
+      'PG': 'Papúa Nueva Guinea',
+      'PH': 'Filipinas',
+      'PK': 'Pakistán',
+      'PL': 'Polonia',
+      'PM': 'San Pedro y Miquelón',
+      'PN': 'Islas Pitcairn',
+      'PR': 'Puerto Rico',
+      'PS': 'Palestina',
+      'PT': 'Portugal',
+      'PW': 'Palaos',
+      'PY': 'Paraguay',
+      'QA': 'Catar',
+      'RE': 'Reunión',
+      'RO': 'Rumania',
+      'RS': 'Serbia',
+      'RU': 'Rusia',
+      'RW': 'Ruanda',
+      'SA': 'Arabia Saudí',
+      'SB': 'Islas Salomón',
+      'SC': 'Seychelles',
+      'SD': 'Sudán',
+      'SE': 'Suecia',
+      'SG': 'Singapur',
+      'SH': 'Santa Elena',
+      'SI': 'Eslovenia',
+      'SJ': 'Svalbard y Jan Mayen',
+      'SK': 'Eslovaquia',
+      'SL': 'Sierra Leona',
+      'SM': 'San Marino',
+      'SN': 'Senegal',
+      'SO': 'Somalia',
+      'SR': 'Surinam',
+      'SS': 'Sudán del Sur',
+      'ST': 'Santo Tomé y Príncipe',
+      'SV': 'El Salvador',
+      'SX': 'Sint Maarten',
+      'SY': 'Siria',
+      'SZ': 'Suazilandia',
+      'TC': 'Islas Turcas y Caicos',
+      'TD': 'Chad',
+      'TF': 'Territorios Australes Franceses',
+      'TG': 'Togo',
+      'TH': 'Tailandia',
+      'TJ': 'Tayikistán',
+      'TK': 'Tokelau',
+      'TL': 'Timor Oriental',
+      'TM': 'Turkmenistán',
+      'TN': 'Túnez',
+      'TO': 'Tonga',
+      'TR': 'Turquía',
+      'TT': 'Trinidad y Tobago',
+      'TV': 'Tuvalu',
+      'TW': 'Taiwán',
+      'TZ': 'Tanzania',
+      'UA': 'Ucrania',
+      'UG': 'Uganda',
+      'UM': 'Islas Ultramarinas de Estados Unidos',
+      'US': 'Estados Unidos',
+      'UY': 'Uruguay',
+      'UZ': 'Uzbekistán',
+      'VA': 'Ciudad del Vaticano',
+      'VC': 'San Vicente y las Granadinas',
+      'VE': 'Venezuela',
+      'VG': 'Islas Vírgenes Británicas',
+      'VI': 'Islas Vírgenes de los Estados Unidos',
+      'VN': 'Vietnam',
+      'VU': 'Vanuatu',
+      'WF': 'Wallis y Futuna',
+      'WS': 'Samoa',
+      'XK': 'Kosovo',
+      'YE': 'Yemen',
+      'YT': 'Mayotte',
+      'ZA': 'Sudáfrica',
+      'ZM': 'Zambia',
+      'ZW': 'Zimbabue'
     };
 
     return countryNames[iso2] || iso2;
@@ -355,7 +543,13 @@ class PhoneLib {
   init() {
     this.render();
     this.attachEventListeners();
-    this.updatePhoneNumber();
+
+    // Si hay un número inicial, establecerlo después de renderizar
+    if (this.phoneNumber) {
+      this.setPhoneNumber(this.phoneNumber);
+    } else {
+      this.updatePhoneNumber();
+    }
 
     // Aplicar estados iniciales
     if (this.isDisabled) {
@@ -406,14 +600,17 @@ class PhoneLib {
    * Obtiene el HTML del icono de flecha
    */
   getArrowIcon() {
-    // Si hay un icono personalizado, usarlo
-    if (this.options.arrowIcon) {
-      return this.options.arrowIcon;
+    // Si hay un icono personalizado, usarlo (validar que sea string)
+    if (this.options.arrowIcon && typeof this.options.arrowIcon === 'string') {
+      // Sanitización básica: remover scripts potencialmente peligrosos
+      // Nota: En producción, considerar usar una librería de sanitización
+      const sanitized = this.options.arrowIcon.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      return sanitized;
     }
 
     // Chevron SVG por defecto (simple, apuntando hacia abajo - solo líneas, sin relleno)
     // Forma de chevron: dos líneas que forman una V apuntando hacia abajo
-    // Usa dos paths separados para asegurar que se vea como chevron, no triángulo
+    // Usa dos líneas separadas para asegurar que se vea como chevron, no triángulo
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="3" y1="5" x2="6" y2="8"/>
       <line x1="6" y1="8" x2="9" y2="5"/>
@@ -657,57 +854,190 @@ class PhoneLib {
    * Adjunta los event listeners
    */
   attachEventListeners() {
+    // Remover listeners anteriores si existen (para evitar duplicados)
+    if (this._boundHandlers) {
+      this.removeEventListeners();
+    }
+
+    // Guardar referencias a handlers para poder removerlos después
+    this._boundHandlers = {
+      dropdownClick: (e) => {
+        if (this.isDisabled) return;
+        e.stopPropagation();
+        this.toggleDropdown();
+      },
+      documentClick: (e) => {
+        if (!this.container.contains(e.target)) {
+          this.closeDropdown();
+        }
+      }
+    };
+
     // Toggle dropdown
-    this.dropdownButton.addEventListener('click', (e) => {
-      if (this.isDisabled) return;
-      e.stopPropagation();
-      this.toggleDropdown();
-    });
+    if (this.dropdownButton) {
+      this.dropdownButton.addEventListener('click', this._boundHandlers.dropdownClick);
+    }
 
     // Cerrar dropdown al hacer click fuera
-    document.addEventListener('click', (e) => {
-      if (!this.container.contains(e.target)) {
-        this.closeDropdown();
-      }
-    });
+    document.addEventListener('click', this._boundHandlers.documentClick);
 
     // Seleccionar país
     const countryItems = this.container.querySelectorAll('.phone-lib-country-item');
+    this._countryItemHandlers = [];
     countryItems.forEach(item => {
-      item.addEventListener('click', () => {
+      const handler = () => {
         if (item.classList.contains('disabled')) {
           return; // No permitir seleccionar países deshabilitados
         }
         const iso2 = item.dataset.iso2;
         const dialCode = item.dataset.dialCode;
-        this.selectCountry(iso2, dialCode);
-      });
+        if (iso2 && dialCode) {
+          this.selectCountry(iso2, dialCode);
+        }
+      };
+      item.addEventListener('click', handler);
+      this._countryItemHandlers.push({ item, handler });
     });
 
     // Input de teléfono
-    this.phoneInput.addEventListener('input', (e) => {
-      if (this.isDisabled || this.isReadonly) return;
-      this.handlePhoneInput(e.target.value);
+    if (this.phoneInput) {
+      // Handler para prevenir entrada de caracteres no numéricos
+      this._boundHandlers.phoneKeyDown = (e) => {
+        if (this.isDisabled || this.isReadonly) return;
 
-      // Validación en tiempo real si está habilitada
-      if (this.options.validateOnInput) {
-        this.validatePhone();
-      }
-    });
+        // Permitir teclas especiales (Backspace, Delete, Arrow keys, Tab, etc.)
+        const allowedKeys = [
+          'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+          'Home', 'End', 'Tab', 'Escape', 'Enter'
+        ];
 
-    this.phoneInput.addEventListener('focus', () => {
-      this.executeCallback('onFocus');
-      this.emitEvent('focus');
-    });
+        // Permitir Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+        if (e.ctrlKey || e.metaKey) {
+          if (['a', 'c', 'v', 'x'].includes(e.key.toLowerCase())) {
+            return; // Permitir
+          }
+        }
 
-    this.phoneInput.addEventListener('blur', () => {
-      const isValid = this.validatePhone();
-      this.executeCallback('onBlur', this.phoneNumber, isValid);
-      this.emitEvent('blur', { phoneNumber: this.phoneNumber, isValid });
-    });
+        // Si es una tecla permitida, dejar pasar
+        if (allowedKeys.includes(e.key)) {
+          return;
+        }
+
+        // Permitir números (0-9)
+        if (e.key >= '0' && e.key <= '9') {
+          return;
+        }
+
+        // Permitir + solo al inicio del input
+        if (e.key === '+') {
+          const currentValue = e.target.value;
+          const selectionStart = e.target.selectionStart;
+          // Solo permitir + si está al inicio o si no hay ningún carácter antes de la posición del cursor
+          if (selectionStart === 0 || currentValue.substring(0, selectionStart).trim() === '') {
+            return;
+          }
+        }
+
+        // Si llegamos aquí, prevenir la entrada
+        e.preventDefault();
+      };
+
+      this._boundHandlers.phoneInput = (e) => {
+        if (this.isDisabled || this.isReadonly) return;
+
+        // Obtener el valor actual del input
+        let inputValue = e.target.value;
+
+        // Filtrar caracteres no numéricos (permitir números y +)
+        // Remover cualquier carácter que no sea número o +
+        inputValue = inputValue.replace(/[^0-9+]/g, '');
+
+        // Si el valor cambió después de filtrar, actualizar el input
+        if (inputValue !== e.target.value) {
+          const cursorPosition = e.target.selectionStart;
+          e.target.value = inputValue;
+          // Restaurar posición del cursor (ajustada por caracteres removidos)
+          const newPosition = Math.min(cursorPosition, inputValue.length);
+          e.target.setSelectionRange(newPosition, newPosition);
+        }
+
+        // Procesar el input
+        this.handlePhoneInput(inputValue);
+
+        // Validación en tiempo real si está habilitada
+        if (this.options.validateOnInput) {
+          this.validatePhone();
+        }
+      };
+
+      this._boundHandlers.phoneFocus = () => {
+        this.executeCallback('onFocus');
+        this.emitEvent('focus');
+      };
+
+      this._boundHandlers.phoneBlur = () => {
+        const isValid = this.validatePhone();
+        this.executeCallback('onBlur', this.phoneNumber, isValid);
+        this.emitEvent('blur', { phoneNumber: this.phoneNumber, isValid });
+      };
+
+      this.phoneInput.addEventListener('keydown', this._boundHandlers.phoneKeyDown);
+      this.phoneInput.addEventListener('input', this._boundHandlers.phoneInput);
+      this.phoneInput.addEventListener('focus', this._boundHandlers.phoneFocus);
+      this.phoneInput.addEventListener('blur', this._boundHandlers.phoneBlur);
+    }
 
     // Navegación por teclado en dropdown
     this.setupKeyboardNavigation();
+  }
+
+  /**
+   * Remueve los event listeners
+   */
+  removeEventListeners() {
+    // Remover listeners del botón
+    if (this.dropdownButton && this._boundHandlers?.dropdownClick) {
+      this.dropdownButton.removeEventListener('click', this._boundHandlers.dropdownClick);
+    }
+
+    // Remover listener del document
+    if (this._boundHandlers?.documentClick) {
+      document.removeEventListener('click', this._boundHandlers.documentClick);
+    }
+
+    // Remover listeners de items de países
+    if (this._countryItemHandlers) {
+      this._countryItemHandlers.forEach(({ item, handler }) => {
+        item.removeEventListener('click', handler);
+      });
+      this._countryItemHandlers = [];
+    }
+
+    // Remover listeners del input
+    if (this.phoneInput && this._boundHandlers) {
+      if (this._boundHandlers.phoneKeyDown) {
+        this.phoneInput.removeEventListener('keydown', this._boundHandlers.phoneKeyDown);
+      }
+      if (this._boundHandlers.phoneInput) {
+        this.phoneInput.removeEventListener('input', this._boundHandlers.phoneInput);
+      }
+      if (this._boundHandlers.phoneFocus) {
+        this.phoneInput.removeEventListener('focus', this._boundHandlers.phoneFocus);
+      }
+      if (this._boundHandlers.phoneBlur) {
+        this.phoneInput.removeEventListener('blur', this._boundHandlers.phoneBlur);
+      }
+    }
+
+    // Remover listeners de teclado
+    if (this._keyboardHandlers) {
+      if (this.dropdownButton && this._keyboardHandlers.buttonKeydown) {
+        this.dropdownButton.removeEventListener('keydown', this._keyboardHandlers.buttonKeydown);
+      }
+      if (this.dropdownMenu && this._keyboardHandlers.menuKeydown) {
+        this.dropdownMenu.removeEventListener('keydown', this._keyboardHandlers.menuKeydown);
+      }
+    }
   }
 
   /**
@@ -716,35 +1046,49 @@ class PhoneLib {
   setupKeyboardNavigation() {
     if (!this.dropdownButton) return;
 
-    this.dropdownButton.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        this.toggleDropdown();
-      } else if (e.key === 'Escape') {
-        this.closeDropdown();
-      }
-    });
-
-    // Navegación con flechas en el dropdown
-    if (this.dropdownMenu) {
-      this.dropdownMenu.addEventListener('keydown', (e) => {
+    // Guardar handlers para poder removerlos después
+    this._keyboardHandlers = {
+      buttonKeydown: (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.toggleDropdown();
+        } else if (e.key === 'Escape') {
+          this.closeDropdown();
+        }
+      },
+      menuKeydown: (e) => {
         const items = Array.from(this.container.querySelectorAll('.phone-lib-country-item:not([style*="display: none"])'));
+        if (items.length === 0) return;
+
         const currentIndex = items.findIndex(item => item.classList.contains('selected'));
 
         if (e.key === 'ArrowDown') {
           e.preventDefault();
           const nextIndex = (currentIndex + 1) % items.length;
-          items[nextIndex]?.click();
-          items[nextIndex]?.scrollIntoView({ block: 'nearest' });
+          const nextItem = items[nextIndex];
+          if (nextItem && !nextItem.classList.contains('disabled')) {
+            nextItem.click();
+            nextItem.scrollIntoView({ block: 'nearest' });
+          }
         } else if (e.key === 'ArrowUp') {
           e.preventDefault();
           const prevIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
-          items[prevIndex]?.click();
-          items[prevIndex]?.scrollIntoView({ block: 'nearest' });
+          const prevItem = items[prevIndex];
+          if (prevItem && !prevItem.classList.contains('disabled')) {
+            prevItem.click();
+            prevItem.scrollIntoView({ block: 'nearest' });
+          }
         } else if (e.key === 'Escape') {
           this.closeDropdown();
         }
-      });
+      }
+    };
+
+    this.dropdownButton.addEventListener('keydown', this._keyboardHandlers.buttonKeydown);
+
+    // Navegación con flechas en el dropdown
+    if (this.dropdownMenu) {
+      this.dropdownMenu.addEventListener('keydown', this._keyboardHandlers.menuKeydown);
     }
   }
 
@@ -753,17 +1097,34 @@ class PhoneLib {
    */
   handlePhoneInput(value) {
     const previousNumber = this.phoneNumber;
+    const previousCountry = this.selectedCountry;
     this.phoneNumber = value;
 
     // Detección automática de país si está habilitada
+    // IMPORTANTE: Hacer esto ANTES de formatear para que el formateo use el país correcto
     if (this.options.autoDetectCountry && value) {
       this.autoDetectCountry(value);
     }
 
+    // Actualizar el número formateado (usará el país correcto si se detectó)
     this.updatePhoneNumber();
 
     // Ejecutar callbacks y eventos (validar sin actualizar visuals para obtener estado actual)
     const isValid = this.phoneNumber ? this.validatePhone(false) : false;
+
+    // Emitir evento de cambio de país si cambió
+    if (previousCountry !== this.selectedCountry) {
+      const dialCode = this.getDialCode();
+      const countryData = this.countries.find(c => c.iso2 === this.selectedCountry);
+      this.executeCallback('onCountryChange', this.selectedCountry, dialCode, countryData?.name);
+      this.emitEvent('countryChange', {
+        country: this.selectedCountry,
+        dialCode,
+        countryName: countryData?.name,
+        previousCountry
+      });
+    }
+
     this.executeCallback('onPhoneChange', this.phoneNumber, isValid, this.selectedCountry);
     this.emitEvent('phoneChange', {
       phoneNumber: this.phoneNumber,
@@ -801,7 +1162,12 @@ class PhoneLib {
    * Actualiza el número de teléfono y formatea
    */
   updatePhoneNumber() {
+    if (!this.phoneInput) return;
+
     if (!this.phoneNumber) {
+      if (this.phoneInput.value !== '') {
+        this.phoneInput.value = '';
+      }
       if (this.hintElement) {
         this.hintElement.textContent = '';
       }
@@ -809,13 +1175,48 @@ class PhoneLib {
     }
 
     try {
-      const formatter = new AsYouType(this.selectedCountry);
+      // Si el número empieza con +, intentar detectar el país para formatear correctamente
+      let countryForFormatting = this.selectedCountry;
+      if (this.phoneNumber && this.phoneNumber.startsWith('+')) {
+        try {
+          const parsed = parsePhoneNumber(this.phoneNumber);
+          if (parsed && parsed.country) {
+            // Usar el país detectado para formatear, si está disponible
+            const detectedCountry = parsed.country;
+            const countryAvailable = this.countries.find(c => c.iso2 === detectedCountry && !c.disabled);
+            if (countryAvailable) {
+              countryForFormatting = detectedCountry;
+            }
+          }
+        } catch (e) {
+          // Si no se puede detectar, usar el país seleccionado actual
+        }
+      }
+
+      const formatter = new AsYouType(countryForFormatting);
       const formatted = formatter.input(this.phoneNumber);
 
+      // Solo actualizar si el valor formateado es diferente
       if (formatted && formatted !== this.phoneInput.value) {
+        // Guardar la posición del cursor antes de actualizar
+        const cursorPosition = this.phoneInput.selectionStart;
+        const inputLength = this.phoneInput.value.length;
+        const wasAtEnd = cursorPosition === inputLength;
+
+        // Actualizar el valor
         this.phoneInput.value = formatted;
-        // Actualizar phoneNumber con el valor formateado para mantener sincronización
-        this.phoneNumber = formatted;
+
+        // Restaurar la posición del cursor de manera inteligente
+        if (wasAtEnd) {
+          // Si estaba al final, mantenerlo al final
+          this.phoneInput.setSelectionRange(formatted.length, formatted.length);
+        } else {
+          // Intentar mantener la posición relativa
+          // Calcular la nueva posición basada en la diferencia de longitud
+          const lengthDiff = formatted.length - inputLength;
+          const newPosition = Math.max(0, Math.min(cursorPosition + lengthDiff, formatted.length));
+          this.phoneInput.setSelectionRange(newPosition, newPosition);
+        }
       }
 
       // Actualizar hint
@@ -913,11 +1314,23 @@ class PhoneLib {
    * Selecciona un país
    */
   selectCountry(iso2, dialCode, silent = false) {
+    // Validar que el país existe
+    if (!iso2 || !dialCode) {
+      console.warn('PhoneLib: selectCountry requiere iso2 y dialCode válidos');
+      return;
+    }
+
     const previousCountry = this.selectedCountry;
     this.selectedCountry = iso2;
 
     // Actualizar botón según el layout
     const countryData = this.countries.find(c => c.iso2 === iso2);
+
+    // Si el país no se encuentra, usar valores por defecto
+    if (!countryData) {
+      console.warn(`PhoneLib: País ${iso2} no encontrado en la lista`);
+      return;
+    }
 
     if (this.options.layout === 'separated') {
       // Layout separado: actualizar flag, nombre del país y código de marcación (si está visible)
@@ -955,9 +1368,11 @@ class PhoneLib {
     // Cerrar dropdown
     this.closeDropdown();
 
-    // Actualizar placeholder y formato
-    this.phoneInput.placeholder = this.getPlaceholder();
-    this.updatePhoneNumber();
+    // Actualizar placeholder y formato (solo si el input existe)
+    if (this.phoneInput) {
+      this.phoneInput.placeholder = this.getPlaceholder();
+      this.updatePhoneNumber();
+    }
 
     // Ejecutar callbacks y eventos solo si no es silencioso
     if (!silent) {
@@ -1150,9 +1565,12 @@ class PhoneLib {
       return;
     }
 
-    this.phoneNumber = number;
+    // Filtrar caracteres no numéricos (permitir números y +)
+    const filteredNumber = typeof number === 'string' ? number.replace(/[^0-9+]/g, '') : (number || '').toString().replace(/[^0-9+]/g, '');
+
+    this.phoneNumber = filteredNumber;
     if (this.phoneInput) {
-      this.phoneInput.value = number;
+      this.phoneInput.value = filteredNumber;
     }
     this.updatePhoneNumber();
 
@@ -1249,11 +1667,8 @@ class PhoneLib {
    * Destruye la instancia y limpia recursos
    */
   destroy() {
-    // Remover event listeners
-    if (this.phoneInput) {
-      const newInput = this.phoneInput.cloneNode(true);
-      this.phoneInput.parentNode.replaceChild(newInput, this.phoneInput);
-    }
+    // Remover todos los event listeners
+    this.removeEventListeners();
 
     // Limpiar contenedor
     if (this.container) {
@@ -1267,12 +1682,19 @@ class PhoneLib {
     this.hintElement = null;
     this.dialCodeInput = null;
     this.countriesList = null;
+    this._boundHandlers = null;
+    this._countryItemHandlers = null;
+    this._keyboardHandlers = null;
   }
 
   /**
    * Actualiza opciones dinámicamente
    */
   updateOptions(newOptions) {
+    // Preservar el valor actual del teléfono y país antes de cualquier cambio
+    const savedPhoneNumber = this.phoneNumber || '';
+    const savedCountry = this.selectedCountry || this.options.initialCountry || 'US';
+
     // Actualizar opciones
     this.options = { ...this.options, ...newOptions };
 
@@ -1295,10 +1717,28 @@ class PhoneLib {
       this.setCountry(newOptions.initialCountry);
     }
 
+    // Si se proporciona un número inicial, usarlo
+    if (newOptions.initialPhoneNumber !== undefined) {
+      this.phoneNumber = newOptions.initialPhoneNumber;
+    }
+
     // Re-renderizar si cambió layout u opciones visuales importantes
     if (newOptions.layout || newOptions.showDialCode !== undefined || newOptions.customClasses || newOptions.customStyles || newOptions.arrowIcon !== undefined) {
       this.render();
       this.attachEventListeners();
+
+      // Restaurar el valor del teléfono después de re-renderizar
+      // Si no se proporcionó un nuevo initialPhoneNumber, restaurar el valor guardado
+      if (newOptions.initialPhoneNumber === undefined && savedPhoneNumber) {
+        this.setPhoneNumber(savedPhoneNumber);
+      } else if (newOptions.initialPhoneNumber !== undefined) {
+        this.setPhoneNumber(newOptions.initialPhoneNumber);
+      }
+
+      // Asegurar que el país también esté correcto
+      if (this.selectedCountry !== savedCountry && newOptions.initialCountry === undefined) {
+        this.setCountry(savedCountry);
+      }
     }
   }
 }
