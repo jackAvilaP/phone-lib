@@ -42,12 +42,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/jackAvilaP/phone-lib.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/jackAvilaP/phone-lib/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/jackAvilaP/phone-lib#readme",
   "dependencies": {
     "libphonenumber-js": "^1.11.0"
   },
