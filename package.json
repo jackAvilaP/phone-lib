@@ -5,6 +5,7 @@
   "main": "phone-lib.js",
   "module": "phone-lib.js",
   "type": "module",
+  "types": "index.d.ts",
   "exports": {
     ".": {
       "import": "./phone-lib.js",
@@ -20,6 +21,7 @@
   "scripts": {
     "serve": "npx http-server . -p 3004 -o",
     "prepublishOnly": "echo 'Verificando archivos antes de publicar...' && node --check phone-lib.js",
+    "test": "vitest",
     "update-version": "node update-version.js"
   },
   "keywords": [
@@ -73,5 +75,9 @@
   ],
   "engines": {
     "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "jsdom": "^27.4.0",
+    "vitest": "^4.0.17"
   }
 }

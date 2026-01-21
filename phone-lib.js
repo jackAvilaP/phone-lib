@@ -77,7 +77,7 @@ class PhoneLib {
     // Estado interno
     this.selectedCountry = this.options.initialCountry;
     this.phoneNumber = options.initialPhoneNumber || '';
-    this.isValid = false;
+    this._isValid = false;
     this.isDisabled = this.options.disabled;
     this.isReadonly = this.options.readonly;
     this.countries = this.getCountriesList();
@@ -1247,8 +1247,8 @@ class PhoneLib {
     try {
       const phoneNumber = parsePhoneNumber(this.phoneNumber, this.selectedCountry);
       const isValid = phoneNumber.isValid();
-      const previousValid = this.isValid;
-      this.isValid = isValid;
+      const previousValid = this._isValid;
+      this._isValid = isValid;
 
       if (updateVisuals && this.phoneInput) {
         this.phoneInput.classList.toggle('phone-lib-input-invalid', !isValid);
@@ -1263,7 +1263,7 @@ class PhoneLib {
 
       return isValid;
     } catch (e) {
-      this.isValid = false;
+      this._isValid = false;
       if (updateVisuals && this.phoneInput) {
         this.phoneInput.classList.add('phone-lib-input-invalid');
         this.phoneInput.classList.remove('phone-lib-input-valid');
@@ -1519,7 +1519,7 @@ class PhoneLib {
       international: this.formatInternational(),
       national: this.formatNational(),
       rfc3966: this.formatRFC3966(),
-      isValid: this.isValid,
+      isValid: this._isValid,
       type: this.getNumberType(),
       countryName: countryData?.name || this.selectedCountry
     };
@@ -1575,7 +1575,7 @@ class PhoneLib {
     this.updatePhoneNumber();
 
     // Ejecutar callbacks
-    const isValid = this.isValid;
+    const isValid = this._isValid;
     this.executeCallback('onPhoneChange', this.phoneNumber, isValid, this.selectedCountry);
     this.emitEvent('phoneChange', {
       phoneNumber: this.phoneNumber,
