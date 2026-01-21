@@ -67,4 +67,17 @@ describe('PhoneLib', () => {
         const national = phoneLib.formatNational();
         expect(national.replace(/\s/g, '')).toBe('3001234567');
     });
+
+    it('should sanitize arrowIcon to prevent XSS', () => {
+        const phoneLib = new PhoneLib('#phone-container', {
+            initialCountry: 'CO',
+            arrowIcon: '<script>alert("XSS")</script><svg>safe</svg>'
+        });
+
+        // Access private method or check DOM if easier, but method is protected.
+        // We can inspect the DOM since we use jsdom
+        const arrowSpan = container.querySelector('.phone-lib-arrow');
+        expect(arrowSpan.innerHTML).not.toContain('<script>');
+        expect(arrowSpan.innerHTML).toContain('<svg>safe</svg>');
+    });
 });
